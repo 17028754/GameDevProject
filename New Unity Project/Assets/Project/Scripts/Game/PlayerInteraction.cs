@@ -56,7 +56,7 @@ public class PlayerInteraction : MonoBehaviour
                 // Perform the smooth animation to move the collected cat model to the codex
                 StartCoroutine(moveObject());
 
-                // Deactive collected cat model after it has reached the codex
+                // // Deactive collected cat model after it has reached the codex
                 StartCoroutine(deactivateObject());
             }
         }
