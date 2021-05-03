@@ -8,17 +8,20 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     private Rigidbody2D rb2d;
+    //public float rayLength;
     public Transform contactChecker;
     public Vector2 p;
-    private bool moveLeft;
-    private bool moveRight;
-    private bool moveDown;
-    private bool moveUp;
-    
+    public bool appear = false;
+    public bool bossCat;
+    public bool commonCat;
+    //private bool moveLeft;
+    //private bool moveRight;
+    //private bool moveDown;
+    //private bool moveUp;
+
     //public float speed;
     //public Vector3 normalized;
     //public Vector3 move;
-
 
     public string[] options = new string[] {"HorizontalDirection", "DigonalDirection"};
 
@@ -29,45 +32,72 @@ public class EnemyMovement : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         p = transform.position;
         int rand = Random.Range(0, 2);
-        Invoke(options[rand],0);
+        Invoke(options[rand], 0);
     }
 
-    // Update is called once per frame
+        // Update is called once per frame
     void Update()
     {
         //transform.Translate(move * speed * Time.deltaTime);
+      
+
     }
 
-    //Consistent calling just for check walls
-    /*
+   
     void FixedUpdate()
     {
 
-        RayCastHit2D contactCheck = Physics2D.Raycast(contactChecker.position, Vector2.left, rayLength);
-        if(contactCheck == true)
+        if ((transform.position.x > 10) || (transform.position.x < -10))
         {
-            if(moveLeft == true && moveDown == true)
+            Debug.Log("hello");
+            if (bossCat == true)
             {
-                transform.eulerAngles = new Vector2(0, 315);
+                if (commonCat == true)
+                {
+                    gameObject.SetActive(false);
+                }
+
+                appear = true;
             }
-            else if (moveLeft == true && moveUp == true)
+            if (commonCat == true)
             {
-                transform.eulerAngles = new Vector2(0, 225);
-            }
-            else if (moveRight == true && moveDown == true)
-            {
-                transform.eulerAngles = new Vector2(0, 45);
-            }
-            if(moveRight == true && moveUp == true)
-            {
-                transform.eulerAngles = new Vector2(0, 135);
+                gameObject.SetActive(false);
+
             }
 
         }
+
+        //need to say after some time or change coordinate to be further
+        //if((p.x == 480.0f) || (p.x == 420.5f))
+
+
+        /*
+
+         RayCastHit2D contactCheck = Physics2D.Raycast(contactChecker.position, Vector2.left, rayLength);
+         Debug.DrawRay(contactChecker.position, Vector2.left * rayLength, Color.red);
+         if(contactCheck == true)
+         {
+             if(moveLeft == true && moveDown == true)
+             {
+                 transform.eulerAngles = new Vector2(0, 315);
+             }
+             else if (moveLeft == true && moveUp == true)
+             {
+                 transform.eulerAngles = new Vector2(0, 225);
+             }
+             else if (moveRight == true && moveDown == true)
+             {
+                 transform.eulerAngles = new Vector2(0, 45);
+             }
+             if(moveRight == true && moveUp == true)
+             {
+                 transform.eulerAngles = new Vector2(0, 135);
+             }
+
+         }
+        */
+
     }
-    */
-
-
     //Called once
     void HorizontalDirection()
     {
@@ -76,7 +106,7 @@ public class EnemyMovement : MonoBehaviour
         {
             transform.eulerAngles = new Vector2(0, -180);
             rb2d.AddForce(new Vector2(100, 0));
-            moveRight = true;
+            //moveRight = true;
             //move = new Vector3(5, 0, 0);
 
         }
@@ -86,7 +116,7 @@ public class EnemyMovement : MonoBehaviour
         {
             transform.eulerAngles = new Vector2(0, 0);
             rb2d.AddForce(new Vector2(-100, 0));
-            moveLeft = true;
+            //moveLeft = true;
             //move = -(new Vector3(5, 0, 0));
 
         }
@@ -97,12 +127,12 @@ public class EnemyMovement : MonoBehaviour
         if (p.x < 0)
         {
             transform.eulerAngles = new Vector2(0, -180);
-            moveLeft = true;
+            //moveLeft = true;
             //object at top left
             if (p.y > 0)
             {
                 rb2d.AddForce(new Vector2(100, -45));
-                moveDown = true;
+                //moveDown = true;
                 //move = new Vector3(5, -5, 0);
 
             }
@@ -110,7 +140,7 @@ public class EnemyMovement : MonoBehaviour
             else
             {
                 rb2d.AddForce(new Vector2(100, 45));
-                moveUp = true;
+                //moveUp = true;
                 //move = new Vector3(5, 5, 0);
 
             }
@@ -120,12 +150,12 @@ public class EnemyMovement : MonoBehaviour
         {
 
             transform.eulerAngles = new Vector2(0, 0);
-            moveRight = true;
+            //moveRight = true;
             //object at top right
             if (p.y > 0)
             {
                 rb2d.AddForce(new Vector2(-100, -45));
-                moveDown = true;
+                //moveDown = true;
                 //move = -(new Vector3(-5, -5, 0));
             }
 
@@ -133,7 +163,7 @@ public class EnemyMovement : MonoBehaviour
             else
             {
                 rb2d.AddForce(new Vector2(-100, 45));
-                moveUp = true;
+                //moveUp = true;
                 //move = -(new Vector3(-5, 5, 0));
             }
         }
