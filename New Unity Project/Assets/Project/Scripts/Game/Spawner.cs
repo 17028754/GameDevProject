@@ -14,21 +14,32 @@ public class Spawner : MonoBehaviour
 	private float boxSpawnRate = 0f;
 	private int previousSpawnPointB = 0;
 
-	private float MinY = 250f;
-	private float MaxY = 256f;
+	private float MinY = -4.5f;
+	private float MaxY = 0f;
 
-	private float leftMinX = 440f;
-	private float leftMaxX = 443f;
+	private float leftMinX = -12f;
+	private float leftMaxX = -10f;
 
-	private float rightMinX = 464f;
-	private float rightMaxX = 467f;
+	private float rightMinX = 10f;
+	private float rightMaxX = 12f;
 
 	private bool spawnLeft = false;
 	private bool spawnRight = false;
 
 	private int commonCatSpawnned = 0; 
+	public int CommonCatSpawnned { get {return commonCatSpawnned; } set {commonCatSpawnned = value; }}
+	private EnemyMovement commonCatScript;
+
 	private int uniqueCatSpawnned = 0;
+	public int UniqueCatSpawnned { get {return uniqueCatSpawnned; } set {uniqueCatSpawnned = value; }}
+	private EnemyMovement uniqueCatScript;
+
 	private int boxCatSpawnned = 0;
+	public int BoxCatSpawnned { get {return boxCatSpawnned; } set {boxCatSpawnned = value; }}
+	private EnemyMovement boxCatScript;
+
+	private bool bossCatSpawnned = false;
+	private EnemyMovement bossCatScript;
 
     // Start is called before the first frame update
     void Start()
@@ -40,12 +51,14 @@ public class Spawner : MonoBehaviour
         // Call spawn unique cat and box cat function, and see if can spawn unique cat every 1 second
         InvokeRepeating("spawnUniqueCat", 1.0f, 1.0f);
         InvokeRepeating("spawnBoxCat", 1.0f, 1.0f);
+        InvokeRepeating("spawnBossCat", 1.0f, 1.0f);
     }
 
 
     // Update is called once per frame
     void Update()
     {
+
 
     	// Check if there is enough common cat spawnned
     	if (commonCatSpawnned < 8)
@@ -65,6 +78,9 @@ public class Spawner : MonoBehaviour
 	        	GameObject commonCat = ObjectPoolingManager.Instance.GetCommonCat();
 	        	commonCat.transform.position = position;
 
+	        	commonCatScript = commonCat.GetComponent<EnemyMovement>();
+		    	commonCatScript.p = position;
+
 	        	// Set the spawnning behaviour to right region for next spawn
 	        	spawnLeft = false;
 	        	spawnRight = true;
@@ -78,6 +94,9 @@ public class Spawner : MonoBehaviour
 
 	        	GameObject commonCat = ObjectPoolingManager.Instance.GetCommonCat();
 	        	commonCat.transform.position = position;
+
+	        	commonCatScript = commonCat.GetComponent<EnemyMovement>();
+		    	commonCatScript.p = position;
 
 	        	// Set the spawnning behaviour to left region for next spawn
 	        	spawnRight = false;
@@ -110,8 +129,8 @@ public class Spawner : MonoBehaviour
 	        	GameObject uniqueCat = ObjectPoolingManager.Instance.GetUniqueCat();
 	        	uniqueCat.transform.position = position;
 
-	        	Debug.Log(uniqueSpawn);
-	        	Debug.Log(uniqueSpawnRate);
+	        	uniqueCatScript = uniqueCat.GetComponent<EnemyMovement>();
+		    	uniqueCatScript.p = position;
 
 	        	uniqueSpawnRate = uniqueBaseSpawn;
 	        	uniqueCatSpawnned += 1;
@@ -151,6 +170,9 @@ public class Spawner : MonoBehaviour
 	        	GameObject boxCat = ObjectPoolingManager.Instance.GetBoxCat();
 	        	boxCat.transform.position = position;
 
+	        	boxCatScript = boxCat.GetComponent<EnemyMovement>();
+		    	boxCatScript.p = position;
+
 	        	boxSpawnRate = boxBaseSpawn;
 	        	boxCatSpawnned += 1;
 	    	}
@@ -163,6 +185,44 @@ public class Spawner : MonoBehaviour
 	    		previousSpawnPointB = player.Points;
 	    	}
     	}
+    }
+
+    // Check if boss cat can be spawned
+    public void spawnBossCat()
+    {
+  	
+		if (player.Points >= 10)
+		{
+	    	if (!bossCatSpawnned)
+	    	{			
+
+				bool left = false;
+				int rand_pos = Random.Range(0,2);
+				if (rand_pos == 0)
+				{
+					left = true;
+				}
+		    	else if (rand_pos == 1)
+		    	{
+		    		left = false;
+		    	}
+		    	Vector3 position = spawnCatPosition(left);
+		    	GameObject bossCat = ObjectPoolingManager.Instance.GetBossCat();
+		    	bossCat.transform.position = position;
+
+		    	bossCatScript = bossCat.GetComponent<EnemyMovement>();
+		    	bossCatScript.p = position;
+		    	bossCatSpawnned = true;
+			}
+			else if (bossCatSpawnned == true && bossCatScript.appear == true)
+			{
+				// Debug.Log(bossCatScript.appear);
+
+				bossCatSpawnned = false;
+				bossCatScript.appear = false;
+			}
+		}
+    	
     }
 
     // Function to wait for 1 to 2 seconds before spawnning next cat

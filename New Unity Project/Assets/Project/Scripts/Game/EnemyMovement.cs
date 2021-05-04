@@ -14,6 +14,8 @@ public class EnemyMovement : MonoBehaviour
     public bool appear = false;
     public bool bossCat;
     public bool commonCat;
+    public bool uniqueCat;
+    public bool boxCat;
     //private bool moveLeft;
     //private bool moveRight;
     //private bool moveDown;
@@ -23,33 +25,47 @@ public class EnemyMovement : MonoBehaviour
     //public Vector3 normalized;
     //public Vector3 move;
 
+    private Spawner spawnScript;
+
+    public int initialBossCatHP = 1000;
+    private int bossCatHP = 0;
+    public int BossCatHP { get { return bossCatHP; } set {bossCatHP = value;}}
+
     public string[] options = new string[] {"HorizontalDirection", "DigonalDirection"};
 
 
     // Start is called before the first frame update
     void Start()
     {
+    	spawnScript = FindObjectOfType<GameManager>().GetComponent<Spawner>();	
         rb2d = GetComponent<Rigidbody2D>();
         p = transform.position;
-        int rand = Random.Range(0, 2);
-        Invoke(options[rand], 0);
+        if (bossCat)
+        {
+        	bossCatHP = initialBossCatHP;
+        }
     }
 
         // Update is called once per frame
     void Update()
     {
         //transform.Translate(move * speed * Time.deltaTime);
-      
 
+    }
+
+
+    void OnEnable()
+    {
+    	rb2d = GetComponent<Rigidbody2D>();
+        int rand = Random.Range(0, 2);
+        Invoke(options[rand], 0);  	
     }
 
    
     void FixedUpdate()
     {
-
-        if ((transform.position.x > 10) || (transform.position.x < -10))
+        if ((transform.position.x > 12) || (transform.position.x < -12))
         {
-            Debug.Log("hello");
             if (bossCat == true)
             {
                 if (commonCat == true)
@@ -57,12 +73,27 @@ public class EnemyMovement : MonoBehaviour
                     gameObject.SetActive(false);
                 }
 
+                gameObject.SetActive(false);
                 appear = true;
             }
-            if (commonCat == true)
+
+            else if (commonCat == true)
             {
                 gameObject.SetActive(false);
+                spawnScript.CommonCatSpawnned -= 1;
 
+            }
+
+            else if (uniqueCat == true)
+            {
+            	gameObject.SetActive(false);
+            	spawnScript.UniqueCatSpawnned -= 1;
+            }
+
+            else if (boxCat == true)
+            {
+            	gameObject.SetActive(false);
+            	spawnScript.BoxCatSpawnned -= 1;
             }
 
         }
@@ -112,7 +143,6 @@ public class EnemyMovement : MonoBehaviour
         }
         //to the left
         else
-
         {
             transform.eulerAngles = new Vector2(0, 0);
             rb2d.AddForce(new Vector2(-100, 0));

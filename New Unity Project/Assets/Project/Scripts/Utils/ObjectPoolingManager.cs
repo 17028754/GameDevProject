@@ -8,29 +8,37 @@ public class ObjectPoolingManager : MonoBehaviour
 	private static ObjectPoolingManager instance;
 	public static ObjectPoolingManager Instance { get { return instance; }}
 
-	[Header("Gameplay")]
+	[Header("Collected Cat Model")]
 	public GameObject collectCatPrefab;
 	public int amountCCP = 5;
 	private List<GameObject> collectCats;
 
+	[Header("Common Cat Model")]
 	public GameObject commonCatPrefab;
 	public int amountCommonCat = 10;
 	private List<GameObject> commonCats;
 
+	[Header("Unique Cat Model")]
 	public GameObject uniqueCatPrefab;
 	public int amountUniqueCat = 3;
 	private List<GameObject> uniqueCats;
 
+	[Header("Box Cat Model")]
 	public GameObject boxCatPrefab;
 	public int amountBoxCat = 3;
 	private List<GameObject> boxCats;
+
+	[Header("Boss Cat Model")]
+	public GameObject bossCatPrefab;
+	private int amountBossCat = 1;
+	private List<GameObject> bossCat;
 
     // Use this for initialization
     void Awake ()
     {
         instance = this;
 
-        // Preload CCP
+        // Preload CCP (Collected Cat Prefab/Model)
         collectCats = new List<GameObject>(amountCCP);
 
         for (int i = 0; i<amountCCP; i++)
@@ -76,6 +84,18 @@ public class ObjectPoolingManager : MonoBehaviour
         	prefabInstance.SetActive(false);
 
         	boxCats.Add(prefabInstance);
+        }
+
+        // Preload boss cat
+        bossCat = new List<GameObject>(amountBossCat);
+
+        for (int i = 0; i<amountBossCat; i++)
+        {
+        	GameObject prefabInstance = Instantiate(bossCatPrefab);
+        	prefabInstance.transform.SetParent(transform);
+        	prefabInstance.SetActive(false);
+
+        	bossCat.Add(prefabInstance);
         }
     }
 
@@ -147,5 +167,19 @@ public class ObjectPoolingManager : MonoBehaviour
     	prefabInstance.transform.SetParent(transform);
     	boxCats.Add(prefabInstance);
     	return prefabInstance;
+    }
+
+    public GameObject GetBossCat()
+    {
+    	foreach (GameObject bossC in bossCat)
+    	{
+    		if (!bossC.activeInHierarchy)
+    		{
+    			bossC.SetActive(true);
+    			return bossC;
+    		}
+    	}
+
+    	return null;
     }
 }

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Cat
   - Boss
+  - CommonCat
+  - UniqueCat
+  - BoxCat
   layers:
   - Default
   - TransparentFX

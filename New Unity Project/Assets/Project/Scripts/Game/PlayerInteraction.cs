@@ -8,12 +8,19 @@ public class PlayerInteraction : MonoBehaviour
 	[Header("Gameplay")]
 	public int initialPoints = 0;
 	public Transform targetCodex;
+	public int baseDamage = 1;
 
 	private int points;
 	public int Points { get { return points; }}
 
 	private Vector3 position;
 	private GameObject collectCatObject;
+
+	private EnemyMovement bossCatScript;
+	private bool win = false;
+	public bool Win { get { return win; }}
+
+	public Spawner spawnScript;
 
 
     // Start is called before the first frame update
@@ -42,23 +49,55 @@ public class PlayerInteraction : MonoBehaviour
             if (hit.collider != null)
             {
 
-            	// Define the position that the collected cat spirte has to spawn
-            	position = hit.collider.gameObject.transform.position;
+	            if (hit.collider.gameObject.tag != "Boss")
+	            {
 
-            	// Destroy cat model (nid to deactivate instead) then add points
-                Destroy(hit.collider.gameObject);
-                points++;
+	            	// Define the position that the collected cat spirte has to spawn
+	            	position = hit.collider.gameObject.transform.position;
 
-                // Then obtain collected cat model from PoolingManager, and spawn it at the clicked cat model's location
-                collectCatObject = ObjectPoolingManager.Instance.GetCCP();
-                collectCatObject.transform.position = position;
+	            	// Deactive cat model then add points
+	                hit.collider.gameObject.SetActive(false);
+	                points++;
 
-                // Perform the smooth animation to move the collected cat model to the codex
-                StartCoroutine(moveObject());
+	                // Reduce the number of spawnned cats in spawner
+	                if (hit.collider.gameObject.tag == "CommonCat")
+	                {
+	                	spawnScript.CommonCatSpawnned -= 1;
+	                } else if (hit.collider.gameObject.tag == "UniqueCat")
+	                {
+	                	spawnScript.UniqueCatSpawnned -= 1;
+	                } else if (hit.collider.gameObject.tag == "BoxCat")
+	                {
+	                	spawnScript.BoxCatSpawnned -= 1;
+	                }
 
-                // // Deactive collected cat model after it has reached the codex
-                StartCoroutine(deactivateObject());
-            }
+
+
+
+	                // Then obtain collected cat model from PoolingManager, and spawn it at the clicked cat model's location
+	                collectCatObject = ObjectPoolingManager.Instance.GetCCP();
+	                collectCatObject.transform.position = position;
+
+	                // Perform the smooth animation to move the collected cat model to the codex
+	                StartCoroutine(moveObject());
+
+	                // // Deactive collected cat model after it has reached the codex
+	                StartCoroutine(deactivateObject());
+	            }
+	            else if (hit.collider.gameObject.tag == "Boss")
+	            {
+	            	bossCatScript = hit.collider.gameObject.GetComponent<EnemyMovement>();
+
+	            	bossCatScript.BossCatHP -= baseDamage;
+	            	Debug.Log(bossCatScript.BossCatHP);
+
+	            	if (bossCatScript.BossCatHP == 0)
+	            	{
+	            		hit.collider.gameObject.SetActive(false);
+	            		win = true;
+	            	}
+	            }
+        	}
         }
     }
 
@@ -67,7 +106,8 @@ public class PlayerInteraction : MonoBehaviour
     {
     	float totalMovementTime = 1f;
     	float currentMovementTime = 0f;
-    	while (Vector3.Distance(collectCatObject.transform.position, targetCodex.transform.position) > 0)
+
+    	while (collectCatObject.transform.position != targetCodex.transform.position)
     	{
     		currentMovementTime += Time.deltaTime;
     		collectCatObject.transform.position = Vector3.Lerp(collectCatObject.transform.position, targetCodex.transform.position, currentMovementTime/totalMovementTime);
@@ -80,7 +120,7 @@ public class PlayerInteraction : MonoBehaviour
     {
 
     	// Wait for half a second, then deactive the collected cat model
-    	yield return new WaitForSeconds(0.5f);
+    	yield return new WaitForSeconds(0.1f);
     	collectCatObject.SetActive(false);
 
     	
