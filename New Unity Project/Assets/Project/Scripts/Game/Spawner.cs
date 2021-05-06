@@ -52,6 +52,8 @@ public class Spawner : MonoBehaviour
         InvokeRepeating("spawnUniqueCat", 1.0f, 1.0f);
         InvokeRepeating("spawnBoxCat", 1.0f, 1.0f);
         InvokeRepeating("spawnBossCat", 1.0f, 1.0f);
+        // Call spawn common cat after 1 second, then spawn new common cat every 1.5 seconds if total common cat is less than the defined amount
+        InvokeRepeating("spawnCommonCat", 1.0f, 1.5f);
     }
 
 
@@ -60,12 +62,14 @@ public class Spawner : MonoBehaviour
     {
 
 
+    }
+
+
+    public void spawnCommonCat()
+    {
     	// Check if there is enough common cat spawnned
     	if (commonCatSpawnned < 8)
     	{
-
-    		// Wait for 1 to 2 seconds
-			StartCoroutine(waitSeconds());
 
 			// Make it either spawn left or right alternatively, spawn left first then right
 	        if (spawnLeft == true)
@@ -104,7 +108,6 @@ public class Spawner : MonoBehaviour
 	    		commonCatSpawnned++;
 	        }
     	}
-
     }
 
 	// Spawn unique cat according to requirements
@@ -225,13 +228,13 @@ public class Spawner : MonoBehaviour
     	
     }
 
-    // Function to wait for 1 to 2 seconds before spawnning next cat
-    public IEnumerator waitSeconds()
-    {
+    // // Function to wait for 1 to 2 seconds before spawnning next cat
+    // public IEnumerator waitSeconds()
+    // {
 
-    	float timer = Random.Range(1f, 2f);
-    	yield return new WaitForSeconds(timer);
-    } 
+    // 	float timer = Random.Range(1f, 2f);
+    // 	yield return new WaitForSeconds(timer);
+    // } 
 
 
     // Randomly generate the position for next cat spawn

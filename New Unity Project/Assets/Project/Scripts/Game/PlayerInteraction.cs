@@ -15,18 +15,24 @@ public class PlayerInteraction : MonoBehaviour
 
 	private Vector3 position;
 	private GameObject collectCatObject;
+	public Spawner spawnScript;
 
 	private EnemyMovement bossCatScript;
 	private bool win = false;
 	public bool Win { get { return win; }}
 
-	public Spawner spawnScript;
+	private int timer = 0;
+	private int maxTimer = 5;
+	private List<GameObject> commonCatList;
+
+
 
 
     // Start is called before the first frame update
     void Start()
     {
         points = initialPoints;
+        InvokeRepeating("increaseTimer", 1f, 1f);
     }
 
     // Update is called once per frame
@@ -84,12 +90,12 @@ public class PlayerInteraction : MonoBehaviour
 	                // // Deactive collected cat model after it has reached the codex
 	                StartCoroutine(deactivateObject());
 	            }
+	            // if the player clicked on "boss" tag object, deal damage accordingly
 	            else if (hit.collider.gameObject.tag == "Boss")
 	            {
 	            	bossCatScript = hit.collider.gameObject.GetComponent<EnemyMovement>();
 
 	            	bossCatScript.BossCatHP -= baseDamage;
-	            	Debug.Log(bossCatScript.BossCatHP);
 
 	            	if (bossCatScript.BossCatHP == 0)
 	            	{
@@ -97,6 +103,32 @@ public class PlayerInteraction : MonoBehaviour
 	            		win = true;
 	            	}
 	            }
+
+	            timer = 0;
+        	}
+        }
+
+        // Check how long is user idle (button not pressed)
+        if(!Input.GetMouseButtonDown(0))
+        {
+
+        	// Once button is not pressed for more than 5 seconds, perform idle feature
+        	if (timer > maxTimer)
+        	{
+        		// Perform idle feature
+				commonCatList = ObjectPoolingManager.Instance.GetCommonCatList();   
+				foreach (GameObject cc in commonCatList)
+				{
+					if(cc.activeInHierarchy)
+					{
+						cc.SetActive(false);
+						points++;
+						spawnScript.CommonCatSpawnned -= 1;
+						// timer change to 4, so that idle feature will automatically collec cats every 1 second
+						timer = 4;
+						break;
+					}
+				}     		
         	}
         }
     }
@@ -122,7 +154,12 @@ public class PlayerInteraction : MonoBehaviour
     	// Wait for half a second, then deactive the collected cat model
     	yield return new WaitForSeconds(0.1f);
     	collectCatObject.SetActive(false);
-
     	
+    }
+
+    // Increase timer every 1 second
+    public void increaseTimer()
+    {
+    	timer += 1;
     }
 }

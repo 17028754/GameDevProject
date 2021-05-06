@@ -12,11 +12,12 @@ public class GameManager : MonoBehaviour
 	[Header("UI")]
 	public Text pointsText;
 	public Image VictoryScreen;
+	public Text victoryScreen;
 
     // Start is called before the first frame update
     void Start()
     {
-    	VictoryScreen.gameObject.SetActive(false);
+    	victoryScreen.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -26,7 +27,8 @@ public class GameManager : MonoBehaviour
 
         if (player.Win)
         {
-        	VictoryScreen.gameObject.SetActive(true);
+        	victoryScreen.gameObject.SetActive(true);
+        	// gameObject.GetComponent<Spawner>().enabled = false;
         }
     }
 }

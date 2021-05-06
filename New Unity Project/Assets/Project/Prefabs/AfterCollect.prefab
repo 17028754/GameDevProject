@@ -123,6 +123,8 @@ MonoBehaviour:
   appear: 0
   bossCat: 0
   commonCat: 1
+  uniqueCat: 0
+  boxCat: 0
   initialBossCatHP: 1000
   options:
   - HorizontalDirection
@@ -136,7 +138,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 6925363583833083168}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 5989787bf8f58f04a99ac9aaf1e39b52, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

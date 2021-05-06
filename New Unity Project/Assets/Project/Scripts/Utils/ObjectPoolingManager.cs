@@ -99,6 +99,11 @@ public class ObjectPoolingManager : MonoBehaviour
         }
     }
 
+
+
+    // Functions used by other script that wants to access the initialised objects
+
+    // Access Collected Cat Model 
     public GameObject GetCCP()
     {
     	foreach (GameObject ccp in collectCats)
@@ -117,6 +122,7 @@ public class ObjectPoolingManager : MonoBehaviour
     	return prefabInstance;
     }
 
+    // Access Common Cat
     public GameObject GetCommonCat()
     {
     	foreach (GameObject cc in commonCats)
@@ -135,6 +141,7 @@ public class ObjectPoolingManager : MonoBehaviour
     	return prefabInstance;
     }
 
+    // Access Unique Cat
     public GameObject GetUniqueCat()
     {
     	foreach (GameObject uc in uniqueCats)
@@ -146,12 +153,10 @@ public class ObjectPoolingManager : MonoBehaviour
     		}
     	}
 
-    	GameObject prefabInstance = Instantiate(uniqueCatPrefab);
-    	prefabInstance.transform.SetParent(transform);
-    	commonCats.Add(prefabInstance);
-    	return prefabInstance;
+    	return null;
     }
 
+    // Access Box Cat
     public GameObject GetBoxCat()
     {
     	foreach (GameObject bc in uniqueCats)
@@ -163,12 +168,10 @@ public class ObjectPoolingManager : MonoBehaviour
     		}
     	}
 
-    	GameObject prefabInstance = Instantiate(boxCatPrefab);
-    	prefabInstance.transform.SetParent(transform);
-    	boxCats.Add(prefabInstance);
-    	return prefabInstance;
+    	return null;
     }
 
+    // Access Boss Cat
     public GameObject GetBossCat()
     {
     	foreach (GameObject bossC in bossCat)
@@ -181,5 +184,12 @@ public class ObjectPoolingManager : MonoBehaviour
     	}
 
     	return null;
+    }
+
+
+    // Access common cats that have been activated (for idle feature)
+    public List<GameObject> GetCommonCatList()
+    {
+    	return commonCats;
     }
 }
