@@ -156,7 +156,7 @@ public class Spawner : MonoBehaviour
     {
     	if (boxCatSpawnned < 3)
     	{
-	    	float boxSpawn = (Random.Range(0f, 100f) * 100);
+	    	float boxSpawn = Random.Range(0f, 100f);
 	    	if (boxSpawn < boxSpawnRate)
 	    	{
 	    		bool left = false;

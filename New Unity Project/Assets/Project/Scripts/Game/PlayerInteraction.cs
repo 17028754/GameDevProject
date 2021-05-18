@@ -8,6 +8,7 @@ public class PlayerInteraction : MonoBehaviour
 	[Header("Gameplay")]
 	public int initialPoints = 0;
 	public Transform targetCodex;
+	// Player Stats
 	public int baseDamage = 1;
 
 	private int points;
@@ -32,7 +33,7 @@ public class PlayerInteraction : MonoBehaviour
     void Start()
     {
         points = initialPoints;
-        InvokeRepeating("increaseTimer", 1f, 1f);
+        // InvokeRepeating("increaseTimer", 1f, 1f);
     }
 
     // Update is called once per frame
@@ -75,6 +76,8 @@ public class PlayerInteraction : MonoBehaviour
 	                } else if (hit.collider.gameObject.tag == "BoxCat")
 	                {
 	                	spawnScript.BoxCatSpawnned -= 1;
+	                	// Implement Item Foundation here
+	                	// Make sure there is error checking, do not over add values or select capped values
 	                }
 
 

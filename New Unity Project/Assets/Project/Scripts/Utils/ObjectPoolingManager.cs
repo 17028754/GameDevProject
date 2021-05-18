@@ -159,7 +159,7 @@ public class ObjectPoolingManager : MonoBehaviour
     // Access Box Cat
     public GameObject GetBoxCat()
     {
-    	foreach (GameObject bc in uniqueCats)
+    	foreach (GameObject bc in boxCats)
     	{
     		if (!bc.activeInHierarchy)
     		{

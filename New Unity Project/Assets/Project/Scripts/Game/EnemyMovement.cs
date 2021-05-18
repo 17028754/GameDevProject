@@ -27,6 +27,15 @@ public class EnemyMovement : MonoBehaviour
 
     private Spawner spawnScript;
 
+    private float MinY = -4.5f;
+    private float MaxY = 0f;
+
+    private float leftMinX = -12f;
+    private float leftMaxX = -10f;
+
+    private float rightMinX = 10f;
+    private float rightMaxX = 12f;
+
     public int initialBossCatHP = 1000;
     private int bossCatHP = 0;
     public int BossCatHP { get { return bossCatHP; } set {bossCatHP = value;}}
@@ -84,17 +93,19 @@ public class EnemyMovement : MonoBehaviour
 
             }
 
-            else if (uniqueCat == true)
-            {
-            	gameObject.SetActive(false);
-            	spawnScript.UniqueCatSpawnned -= 1;
-            }
+            // At the moment, just make special cats bounce off a special wall instead of despawning it and respawning it
+            // Need to fix animation (flip to the other side when bounced)
+            // else if (uniqueCat == true)
+            // {
+            // 	gameObject.SetActive(false);
+            // 	spawnScript.UniqueCatSpawnned -= 1;
+            // }
 
-            else if (boxCat == true)
-            {
-            	gameObject.SetActive(false);
-            	spawnScript.BoxCatSpawnned -= 1;
-            }
+            // else if (boxCat == true)
+            // {
+            // 	gameObject.SetActive(false);
+            // 	spawnScript.BoxCatSpawnned -= 1;
+            // }
 
         }
 
@@ -198,6 +209,25 @@ public class EnemyMovement : MonoBehaviour
             }
         }
          
+    }
+
+
+    // Randomly generate the position for next cat spawn
+    public Vector3 spawnCatPosition(bool left)
+    {
+        float rand_Y = Random.Range(MinY, MaxY);
+        float rand_X = 0f;
+
+        if (left == true)
+        {
+            rand_X = Random.Range(leftMinX, leftMaxX);
+        }else
+        {
+            rand_X = Random.Range(rightMinX, rightMaxX);
+        }
+        Vector3 position = new Vector3(rand_X, rand_Y, 0f);
+
+        return position;
     }
     
 }
