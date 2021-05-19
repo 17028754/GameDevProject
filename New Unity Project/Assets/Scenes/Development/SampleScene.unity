@@ -235,6 +235,7 @@ MonoBehaviour:
   targetCodex: {fileID: 629564780}
   baseDamage: 500
   spawnScript: {fileID: 1084906986}
+  itemScript: {fileID: 1084906987}
 --- !u!4 &58646843
 Transform:
   m_ObjectHideFlags: 0
@@ -601,7 +602,7 @@ GameObject:
   - component: {fileID: 352579134}
   m_Layer: 8
   m_Name: SpecialWallLeft
-  m_TagString: Untagged
+  m_TagString: SpecialWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -954,6 +955,7 @@ GameObject:
   - component: {fileID: 1084906984}
   - component: {fileID: 1084906985}
   - component: {fileID: 1084906986}
+  - component: {fileID: 1084906987}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1009,6 +1011,21 @@ MonoBehaviour:
   player: {fileID: 58646842}
   uniqueBaseSpawn: 1
   boxBaseSpawn: 1
+--- !u!114 &1084906987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084906983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22292ab3fb55144fa1885081a78b4c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  increaseDmg: 10
+  critChance: 10
+  critDmg: 10
 --- !u!1 &1088761508
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,7 +1120,7 @@ GameObject:
   - component: {fileID: 1302414462}
   m_Layer: 8
   m_Name: SpecialWallLeft (1)
-  m_TagString: Untagged
+  m_TagString: SpecialWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1238,7 +1255,7 @@ GameObject:
   - component: {fileID: 1991856800}
   m_Layer: 0
   m_Name: SpecialWalls
-  m_TagString: Untagged
+  m_TagString: SpecialWalls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

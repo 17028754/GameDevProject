@@ -27,15 +27,6 @@ public class EnemyMovement : MonoBehaviour
 
     private Spawner spawnScript;
 
-    private float MinY = -4.5f;
-    private float MaxY = 0f;
-
-    private float leftMinX = -12f;
-    private float leftMaxX = -10f;
-
-    private float rightMinX = 10f;
-    private float rightMaxX = 12f;
-
     public int initialBossCatHP = 1000;
     private int bossCatHP = 0;
     public int BossCatHP { get { return bossCatHP; } set {bossCatHP = value;}}
@@ -212,22 +203,23 @@ public class EnemyMovement : MonoBehaviour
     }
 
 
-    // Randomly generate the position for next cat spawn
-    public Vector3 spawnCatPosition(bool left)
+    // Flip unique/box cat sprite when hit special wall
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        float rand_Y = Random.Range(MinY, MaxY);
-        float rand_X = 0f;
+        if(other.transform.tag == "SpecialWalls")
+        {
 
-        if (left == true)
-        {
-            rand_X = Random.Range(leftMinX, leftMaxX);
-        }else
-        {
-            rand_X = Random.Range(rightMinX, rightMaxX);
+            // left side, then flip sprite to face the right side
+            if (transform.position.x < 0)
+            {
+                transform.eulerAngles = new Vector2(0, -180);
+            }
+            // right side, then flip sprite to face the left side
+            else
+            {
+                transform.eulerAngles = new Vector2(0, 0);
+            }
         }
-        Vector3 position = new Vector3(rand_X, rand_Y, 0f);
-
-        return position;
     }
-    
+
 }

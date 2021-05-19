@@ -10,13 +10,24 @@ public class PlayerInteraction : MonoBehaviour
 	public Transform targetCodex;
 	// Player Stats
 	public int baseDamage = 1;
+	// increase damage
+	private int increaseDamage = 10;
+	private int increaseDamageCap = 4;
+	private int increaseDamageTracker = 0;
+	// Crit Chance
+	private int critChance = 10;
+	private int critChanceCap = 4;
+	private int critChanceTracker = 0;
+	// Crit Damage
+	private int critDamage = 10;
+	private int critDamageCap = 4;
+	private int critDamageTracker = 0;
 
 	private int points;
 	public int Points { get { return points; }}
 
 	private Vector3 position;
 	private GameObject collectCatObject;
-	public Spawner spawnScript;
 
 	private EnemyMovement bossCatScript;
 	private bool win = false;
@@ -26,6 +37,10 @@ public class PlayerInteraction : MonoBehaviour
 	private int maxTimer = 5;
 	private List<GameObject> commonCatList;
 
+	[Header("Configuration")]
+	public Spawner spawnScript;
+	public ItemScript itemScript;
+
 
 
 
@@ -33,7 +48,7 @@ public class PlayerInteraction : MonoBehaviour
     void Start()
     {
         points = initialPoints;
-        // InvokeRepeating("increaseTimer", 1f, 1f);
+        InvokeRepeating("increaseTimer", 1f, 1f);
     }
 
     // Update is called once per frame
@@ -76,8 +91,35 @@ public class PlayerInteraction : MonoBehaviour
 	                } else if (hit.collider.gameObject.tag == "BoxCat")
 	                {
 	                	spawnScript.BoxCatSpawnned -= 1;
-	                	// Implement Item Foundation here
+	                	// Item foundation, at the moment only 3 item with 3 different basic stats are implemented
 	                	// Make sure there is error checking, do not over add values or select capped values
+	                	bool looper = true;
+	                	while (looper)
+	                	{
+		                	int rand = Random.Range(0, 3);
+		                	if (rand == 0 && increaseDamageTracker != increaseDamageCap)
+		                	{
+		                		increaseDamage += itemScript.increaseDmg;
+		                		increaseDamageTracker += 1;
+		                		looper = false;
+		                	}
+		                	else if (rand == 1 && critChanceTracker != critChanceCap)
+		                	{
+		                		critChance += itemScript.critChance;
+		                		critChanceTracker += 1;
+		                		looper = false;
+		                	}
+		                	else if (rand == 2 && critDamageTracker != critDamageCap)
+		                	{
+		                		critDamage += itemScript.critDmg;
+		                		critDamageTracker += 1;
+		                		looper = false; 
+		                	}
+		                	else
+		                	{
+		                		looper = false;
+		                	}
+	                	}
 	                }
 
 
@@ -98,7 +140,25 @@ public class PlayerInteraction : MonoBehaviour
 	            {
 	            	bossCatScript = hit.collider.gameObject.GetComponent<EnemyMovement>();
 
-	            	bossCatScript.BossCatHP -= baseDamage;
+
+	            	// Debug.Log("This is increase damage: " + increaseDamage);
+	            	// Debug.Log("This is increase crit chance " + critChance);
+	            	// Debug.Log("This is increase crit dmg : " + critDamage);
+
+	            	int totalDamage = baseDamage + baseDamage*increaseDamage/100;
+	            	// Debug.Log("This is total damage: " + totalDamage);
+
+	            	int rand = Random.Range(0, 100);
+	            	// Debug.Log("This is rand : " + rand);
+	            	
+	            	if (rand < critChance)
+	            	{
+	            		totalDamage = totalDamage + totalDamage*critDamage/100;
+	            		// Debug.Log("Total damage when crit: " + totalDamage);
+	            	}
+	            	// Debug.Log("Boss Before getting damaged health: " + bossCatScript.BossCatHP);
+	            	bossCatScript.BossCatHP -= totalDamage;
+	            	// Debug.Log("Boss remaining health: " + bossCatScript.BossCatHP);
 
 	            	if (bossCatScript.BossCatHP == 0)
 	            	{
@@ -122,13 +182,26 @@ public class PlayerInteraction : MonoBehaviour
 				commonCatList = ObjectPoolingManager.Instance.GetCommonCatList();   
 				foreach (GameObject cc in commonCatList)
 				{
-					if(cc.activeInHierarchy)
+					if(cc.activeInHierarchy && cc.transform.position.x < 8f && cc.transform.position.x > -8f)
 					{
 						cc.SetActive(false);
 						points++;
 						spawnScript.CommonCatSpawnned -= 1;
 						// timer change to 4, so that idle feature will automatically collec cats every 1 second
 						timer = 4;
+
+						// Obtain position for collected cat model to spawn at the right location
+						position = cc.transform.position;
+
+		                // Then obtain collected cat model from PoolingManager, and spawn it at the clicked cat model's location
+		                collectCatObject = ObjectPoolingManager.Instance.GetCCP();
+		                collectCatObject.transform.position = position;
+
+		                // Perform the smooth animation to move the collected cat model to the codex
+		                StartCoroutine(moveObject());
+
+		                // // Deactive collected cat model after it has reached the codex
+		                StartCoroutine(deactivateObject());
 						break;
 					}
 				}     		
@@ -165,4 +238,5 @@ public class PlayerInteraction : MonoBehaviour
     {
     	timer += 1;
     }
+
 }
