@@ -141,26 +141,26 @@ public class PlayerInteraction : MonoBehaviour
 	            	bossCatScript = hit.collider.gameObject.GetComponent<EnemyMovement>();
 
 
-	            	// Debug.Log("This is increase damage: " + increaseDamage);
-	            	// Debug.Log("This is increase crit chance " + critChance);
-	            	// Debug.Log("This is increase crit dmg : " + critDamage);
+	            	Debug.Log("This is increase damage: " + increaseDamage);
+	            	Debug.Log("This is increase crit chance " + critChance);
+	            	Debug.Log("This is increase crit dmg : " + critDamage);
 
 	            	int totalDamage = baseDamage + baseDamage*increaseDamage/100;
-	            	// Debug.Log("This is total damage: " + totalDamage);
+	            	Debug.Log("This is total damage: " + totalDamage);
 
 	            	int rand = Random.Range(0, 100);
-	            	// Debug.Log("This is rand : " + rand);
+	            	Debug.Log("This is rand : " + rand);
 	            	
 	            	if (rand < critChance)
 	            	{
 	            		totalDamage = totalDamage + totalDamage*critDamage/100;
-	            		// Debug.Log("Total damage when crit: " + totalDamage);
+	            		Debug.Log("Total damage when crit: " + totalDamage);
 	            	}
-	            	// Debug.Log("Boss Before getting damaged health: " + bossCatScript.BossCatHP);
+	            	Debug.Log("Boss Before getting damaged health: " + bossCatScript.BossCatHP);
 	            	bossCatScript.BossCatHP -= totalDamage;
-	            	// Debug.Log("Boss remaining health: " + bossCatScript.BossCatHP);
+	            	Debug.Log("Boss remaining health: " + bossCatScript.BossCatHP);
 
-	            	if (bossCatScript.BossCatHP == 0)
+	            	if (bossCatScript.BossCatHP <= 0)
 	            	{
 	            		hit.collider.gameObject.SetActive(false);
 	            		win = true;
