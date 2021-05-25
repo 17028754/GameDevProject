@@ -33,6 +33,11 @@ public class ObjectPoolingManager : MonoBehaviour
 	private int amountBossCat = 1;
 	private List<GameObject> bossCat;
 
+    [Header("Effects")]
+    public GameObject effectPrefab;
+    public int amountOfEffects = 1;
+    private List<GameObject> effects;
+
     // Use this for initialization
     void Awake ()
     {
@@ -96,6 +101,17 @@ public class ObjectPoolingManager : MonoBehaviour
         	prefabInstance.SetActive(false);
 
         	bossCat.Add(prefabInstance);
+        }
+
+        effects = new List<GameObject>(amountOfEffects);
+
+        for (int i = 0; i < amountOfEffects; i++)
+        {
+            GameObject prefabInstance = Instantiate(commonCatPrefab);
+            prefabInstance.transform.SetParent(transform);
+            prefabInstance.SetActive(false);
+
+            effects.Add(prefabInstance);
         }
     }
 
@@ -186,6 +202,19 @@ public class ObjectPoolingManager : MonoBehaviour
     	return null;
     }
 
+    public GameObject GetEffects()
+    {
+        foreach (GameObject effect in effects)
+        {
+            if (!effect.activeInHierarchy)
+            {
+                effect.SetActive(true);
+                return effect;
+            }
+        }
+
+        return null;
+    }
 
     // Access common cats that have been activated (for idle feature)
     public List<GameObject> GetCommonCatList()

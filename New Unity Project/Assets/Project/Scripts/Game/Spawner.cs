@@ -41,8 +41,11 @@ public class Spawner : MonoBehaviour
 	private bool bossCatSpawnned = false;
 	private EnemyMovement bossCatScript;
 
-    // Start is called before the first frame update
-    void Start()
+	public int effectsSpawned = 0;
+	public int Effects { get { return effectsSpawned; } set { effectsSpawned = value; } }
+
+	// Start is called before the first frame update
+	void Start()
     {
         spawnLeft = true;
         uniqueSpawnRate = uniqueBaseSpawn;
@@ -64,7 +67,13 @@ public class Spawner : MonoBehaviour
 
     }
 
-
+	public void effects()
+    {
+        if (effectsSpawned < 1)
+        {
+			GameObject Effects = ObjectPoolingManager.Instance.GetEffects();
+		}
+    }
     public void spawnCommonCat()
     {
     	// Check if there is enough common cat spawnned

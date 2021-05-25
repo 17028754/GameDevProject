@@ -1,4 +1,4 @@
-using System.Collections;
+	using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,6 +41,9 @@ public class PlayerInteraction : MonoBehaviour
 	public Spawner spawnScript;
 	public ItemScript itemScript;
 
+	//Visual effects
+	public GameObject effects;
+
 
 
 
@@ -71,14 +74,16 @@ public class PlayerInteraction : MonoBehaviour
             if (hit.collider != null)
             {
 
-	            if (hit.collider.gameObject.tag != "Boss")
+				if (hit.collider.gameObject.tag != "Boss")
 	            {
 
-	            	// Define the position that the collected cat spirte has to spawn
-	            	position = hit.collider.gameObject.transform.position;
+					// Define the position that the collected cat spirte has to spawn
+					position = hit.collider.gameObject.transform.position;
+					Instantiate(effects, transform.position, Quaternion.identity);
+					spawnScript.effectsSpawned -= 1;
 
-	            	// Deactive cat model then add points
-	                hit.collider.gameObject.SetActive(false);
+					// Deactive cat model then add points
+					hit.collider.gameObject.SetActive(false);
 	                points++;
 
 	                // Reduce the number of spawnned cats in spawner

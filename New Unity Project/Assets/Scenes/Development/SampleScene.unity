@@ -236,6 +236,7 @@ MonoBehaviour:
   baseDamage: 500
   spawnScript: {fileID: 1084906986}
   itemScript: {fileID: 1084906987}
+  effects: {fileID: 1540386551010329255, guid: 36e4ab328e4912b4a97dc53e11e45f25, type: 3}
 --- !u!4 &58646843
 Transform:
   m_ObjectHideFlags: 0
@@ -524,7 +525,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &279924023
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -799,7 +800,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1904432461
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bd59bf2e866ed4529ae645637eb9c11d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1011,6 +1012,7 @@ MonoBehaviour:
   player: {fileID: 58646842}
   uniqueBaseSpawn: 1
   boxBaseSpawn: 1
+  effectsSpawned: 0
 --- !u!114 &1084906987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1094,6 +1096,8 @@ MonoBehaviour:
   boxCatPrefab: {fileID: 6740421587979845694, guid: b7f456f17b3d86849a2e4a7d1f8d24c7, type: 3}
   amountBoxCat: 3
   bossCatPrefab: {fileID: 7357088650420401236, guid: 8e7ff3f2f111e7143b606ae77671ed47, type: 3}
+  effectPrefab: {fileID: 1540386551010329255, guid: 36e4ab328e4912b4a97dc53e11e45f25, type: 3}
+  amountOfEffects: 1
 --- !u!4 &1100970271
 Transform:
   m_ObjectHideFlags: 0
