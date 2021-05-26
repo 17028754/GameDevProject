@@ -46,6 +46,9 @@ public class Spawner : MonoBehaviour
 	public int effectsSpawned = 0;
 	public int Effects { get { return effectsSpawned; } set { effectsSpawned = value; } }
 
+	public int damagesSpawned = 0;
+	public int Damages { get { return damagesSpawned; } set { damagesSpawned = value; } }
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -76,7 +79,14 @@ public class Spawner : MonoBehaviour
 			GameObject Effects = ObjectPoolingManager.Instance.GetEffects();
 		}
     }
-    public void spawnCommonCat()
+	public void damage()
+	{
+		if (damagesSpawned < 1)
+		{
+			GameObject Damages = ObjectPoolingManager.Instance.GetDamage();
+		}
+	}
+	public void spawnCommonCat()
     {
     	// Check if there is enough common cat spawnned
     	if (commonCatSpawnned < 8)

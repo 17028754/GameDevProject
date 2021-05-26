@@ -44,11 +44,14 @@ public class PlayerInteraction : MonoBehaviour
 	//Visual effects
 	public GameObject effects;
 
+	//Damage Numbers
+	public GameObject floatingPoints;
 
 
 
-    // Start is called before the first frame update
-    void Start()
+
+	// Start is called before the first frame update
+	void Start()
     {
         points = initialPoints;
         InvokeRepeating("increaseTimer", 1f, 1f);
@@ -73,14 +76,17 @@ public class PlayerInteraction : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(click2D, Vector2.zero);
             if (hit.collider != null)
             {
-
+				//Damage pop up
+				Instantiate(floatingPoints, transform.position, Quaternion.identity);
 				if (hit.collider.gameObject.tag != "Boss" && hit.collider.gameObject.tag != "Walls")
 	            {
 
 					// Define the position that the collected cat spirte has to spawn
 					position = hit.collider.gameObject.transform.position;
+
+					
+					// Effects
 					Instantiate(effects, transform.position, Quaternion.identity);
-					spawnScript.effectsSpawned -= 1;
 
 					// Deactive cat model then add points
 					hit.collider.gameObject.SetActive(false);
@@ -89,7 +95,8 @@ public class PlayerInteraction : MonoBehaviour
 	                // Reduce the number of spawnned cats in spawner
 	                if (hit.collider.gameObject.tag == "CommonCat")
 	                {
-	                	spawnScript.CommonCatSpawnned -= 1;
+						
+						spawnScript.CommonCatSpawnned -= 1;
 	                } else if (hit.collider.gameObject.tag == "UniqueCat")
 	                {
 	                	spawnScript.UniqueCatSpawnned -= 1;
