@@ -74,7 +74,7 @@ public class PlayerInteraction : MonoBehaviour
             if (hit.collider != null)
             {
 
-				if (hit.collider.gameObject.tag != "Boss")
+				if (hit.collider.gameObject.tag != "Boss" && hit.collider.gameObject.tag != "Walls")
 	            {
 
 					// Define the position that the collected cat spirte has to spawn
@@ -146,24 +146,24 @@ public class PlayerInteraction : MonoBehaviour
 	            	bossCatScript = hit.collider.gameObject.GetComponent<EnemyMovement>();
 
 
-	            	Debug.Log("This is increase damage: " + increaseDamage);
-	            	Debug.Log("This is increase crit chance " + critChance);
-	            	Debug.Log("This is increase crit dmg : " + critDamage);
+	            	// Debug.Log("This is increase damage: " + increaseDamage);
+	            	// Debug.Log("This is increase crit chance " + critChance);
+	            	// Debug.Log("This is increase crit dmg : " + critDamage);
 
 	            	int totalDamage = baseDamage + baseDamage*increaseDamage/100;
-	            	Debug.Log("This is total damage: " + totalDamage);
+	            	// Debug.Log("This is total damage: " + totalDamage);
 
 	            	int rand = Random.Range(0, 100);
-	            	Debug.Log("This is rand : " + rand);
+	            	// Debug.Log("This is rand : " + rand);
 	            	
 	            	if (rand < critChance)
 	            	{
 	            		totalDamage = totalDamage + totalDamage*critDamage/100;
-	            		Debug.Log("Total damage when crit: " + totalDamage);
+	            		// Debug.Log("Total damage when crit: " + totalDamage);
 	            	}
-	            	Debug.Log("Boss Before getting damaged health: " + bossCatScript.BossCatHP);
+	            	// Debug.Log("Boss Before getting damaged health: " + bossCatScript.BossCatHP);
 	            	bossCatScript.BossCatHP -= totalDamage;
-	            	Debug.Log("Boss remaining health: " + bossCatScript.BossCatHP);
+	            	// Debug.Log("Boss remaining health: " + bossCatScript.BossCatHP);
 
 	            	if (bossCatScript.BossCatHP <= 0)
 	            	{
@@ -197,6 +197,8 @@ public class PlayerInteraction : MonoBehaviour
 
 						// Obtain position for collected cat model to spawn at the right location
 						position = cc.transform.position;
+						Instantiate(effects, transform.position, Quaternion.identity);
+						spawnScript.effectsSpawned -= 1;
 
 		                // Then obtain collected cat model from PoolingManager, and spawn it at the clicked cat model's location
 		                collectCatObject = ObjectPoolingManager.Instance.GetCCP();

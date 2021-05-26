@@ -10,6 +10,7 @@ TagManager:
   - UniqueCat
   - BoxCat
   - SpecialWalls
+  - Walls
   layers:
   - Default
   - TransparentFX

@@ -40,6 +40,8 @@ public class Spawner : MonoBehaviour
 
 	private bool bossCatSpawnned = false;
 	private EnemyMovement bossCatScript;
+	private int bossSpawnCriteria = 10;
+	public int BossSpawnCriteria { get { return bossSpawnCriteria; } set { bossSpawnCriteria = value; }}
 
 	public int effectsSpawned = 0;
 	public int Effects { get { return effectsSpawned; } set { effectsSpawned = value; } }
@@ -203,7 +205,7 @@ public class Spawner : MonoBehaviour
     public void spawnBossCat()
     {
   	
-		if (player.Points >= 10)
+		if (player.Points >= bossSpawnCriteria)
 		{
 	    	if (!bossCatSpawnned)
 	    	{			
