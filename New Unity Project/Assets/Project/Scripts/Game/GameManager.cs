@@ -27,11 +27,23 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    	// Idle rate need to be tied with a script that gives it the right value to display
+    	// Idle rate need to be adjusted, and actual idle rate in gameplay need to be adjusted accordingly
     	// Maximum value (don't know how to make it expand to right instead of both sides)
-    	idleRateText.text = "IdleRate: 1.22Mpoints/minute";
     	// Minimum starting value
     	// idleRateText.text = "IdleRate: 10points/second";
+    	if (player.IdleRate == 1)
+    	{
+    		idleRateText.text = "IdleRate: 1cat/3seconds";
+    	}
+    	else if (player.IdleRate == 2)
+    	{
+    		idleRateText.text = "IdleRate: 2cats/3seconds";
+    	}
+    	else if (player.IdleRate == 3)
+    	{
+    		idleRateText.text = "IdleRate: 3cats/3seconds";
+    	}
+
 
     	bossSpawnBar.SetSpawnBar(player.Points);
         pointsText.text = "Points: " + player.Points;

@@ -12,5 +12,10 @@ public class ItemScript : MonoBehaviour
 	public int critChance = 10;
 	// Item that increases cirt damage
 	public int critDmg = 10; 
-
+	// Item that increases player idle rate
+	public int catHouse = 1;
+	// Item that increases idle points
+	public int CatFood = 1;
+	// Item that increases manual points
+	public int HumanGloves = 1;
 }

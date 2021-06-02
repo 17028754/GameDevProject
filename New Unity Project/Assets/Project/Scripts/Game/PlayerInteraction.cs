@@ -14,6 +14,7 @@ public class PlayerInteraction : MonoBehaviour
 	private int increaseDamage = 10;
 	private int increaseDamageCap = 4;
 	private int increaseDamageTracker = 0;
+	public int IncreaseDamageTracker { get { return increaseDamageTracker; }}
 	// Crit Chance
 	private int critChance = 10;
 	private int critChanceCap = 4;
@@ -22,9 +23,15 @@ public class PlayerInteraction : MonoBehaviour
 	private int critDamage = 10;
 	private int critDamageCap = 4;
 	private int critDamageTracker = 0;
+	// Cat House (Increase Idle Rate)
+	private int idleRate = 1;
+	public int IdleRate { get { return idleRate; } set { idleRate = value; }}
+	private int idleRateCap = 3;
+	private int idleRateTracker = 1;
+	public int IdleRateTracker { get { return idleRateTracker; }}
 
 	private int points;
-	public int Points { get { return points; }}
+	public int Points { get { return points; } set { idleRate = value; }}
 
 	private Vector3 position;
 	private GameObject collectCatObject;
@@ -105,25 +112,27 @@ public class PlayerInteraction : MonoBehaviour
 	                	spawnScript.BoxCatSpawnned -= 1;
 	                	// Item foundation, at the moment only 3 item with 3 different basic stats are implemented
 	                	// Make sure there is error checking, do not over add values or select capped values
+	                	// Capturing box cat doesn't increase the stat value directly, upgrading does <--- Take note
+	                	// Haven't implement other items (CatHouse, CatFood, HumanGloves)
 	                	bool looper = true;
 	                	while (looper)
 	                	{
 		                	int rand = Random.Range(0, 3);
 		                	if (rand == 0 && increaseDamageTracker != increaseDamageCap)
 		                	{
-		                		increaseDamage += itemScript.increaseDmg;
+		                		//increaseDamage += itemScript.increaseDmg;
 		                		increaseDamageTracker += 1;
 		                		looper = false;
 		                	}
 		                	else if (rand == 1 && critChanceTracker != critChanceCap)
 		                	{
-		                		critChance += itemScript.critChance;
+		                		//critChance += itemScript.critChance;
 		                		critChanceTracker += 1;
 		                		looper = false;
 		                	}
 		                	else if (rand == 2 && critDamageTracker != critDamageCap)
 		                	{
-		                		critDamage += itemScript.critDmg;
+		                		//critDamage += itemScript.critDmg;
 		                		critDamageTracker += 1;
 		                		looper = false; 
 		                	}
@@ -199,7 +208,7 @@ public class PlayerInteraction : MonoBehaviour
 						cc.SetActive(false);
 						points++;
 						spawnScript.CommonCatSpawnned -= 1;
-						// timer change to 4, so that idle feature will automatically collec cats every 1 second
+						// timer change to 4, so that idle feature will automatically collect one cat every 1 second
 						timer = 4;
 
 						// Obtain position for collected cat model to spawn at the right location
