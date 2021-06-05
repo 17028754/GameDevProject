@@ -39,6 +39,7 @@ public class Spawner : MonoBehaviour
 	private EnemyMovement boxCatScript;
 
 	private bool bossCatSpawnned = false;
+	public bool BossCatSpawnned { get { return bossCatSpawnned; }}
 	private EnemyMovement bossCatScript;
 	private int bossSpawnCriteria = 10;
 	public int BossSpawnCriteria { get { return bossSpawnCriteria; } set { bossSpawnCriteria = value; }}
@@ -72,20 +73,20 @@ public class Spawner : MonoBehaviour
 
     }
 
-	public void effects()
-    {
-        if (effectsSpawned < 1)
-        {
-			GameObject Effects = ObjectPoolingManager.Instance.GetEffects();
-		}
-    }
-	public void damage()
-	{
-		if (damagesSpawned < 1)
-		{
-			GameObject Damages = ObjectPoolingManager.Instance.GetDamage();
-		}
-	}
+	// public void effects()
+ //    {
+ //        if (effectsSpawned < 1)
+ //        {
+	// 		GameObject Effects = ObjectPoolingManager.Instance.GetEffects();
+	// 	}
+ //    }
+	// public void damage()
+	// {
+	// 	if (damagesSpawned < 1)
+	// 	{
+	// 		GameObject Damages = ObjectPoolingManager.Instance.GetDamage();
+	// 	}
+	// }
 	public void spawnCommonCat()
     {
     	// Check if there is enough common cat spawnned
@@ -214,8 +215,7 @@ public class Spawner : MonoBehaviour
     // Check if boss cat can be spawned
     public void spawnBossCat()
     {
-  	
-		if (player.Points >= bossSpawnCriteria)
+		if (player.Points >= bossSpawnCriteria && player.CanSpawn == true)
 		{
 	    	if (!bossCatSpawnned)
 	    	{			

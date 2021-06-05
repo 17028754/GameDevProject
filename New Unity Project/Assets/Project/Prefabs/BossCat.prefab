@@ -103,7 +103,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1904432461
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f240dfd4814d34d55a9b033f3c9d8a60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -180,7 +180,9 @@ MonoBehaviour:
   appear: 0
   bossCat: 1
   commonCat: 0
-  initialBossCatHP: 1000
+  uniqueCat: 0
+  boxCat: 0
+  initialBossCatHP: 10
   options:
   - HorizontalDirection
   - DigonalDirection

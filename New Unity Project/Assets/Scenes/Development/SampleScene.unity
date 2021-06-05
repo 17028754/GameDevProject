@@ -205,7 +205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 16417095}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 580478216}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: UpgradeCatToy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &16417095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,7 +501,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 65.243866, y: -76.8}
+  m_AnchoredPosition: {x: 643.3, y: -26.411}
   m_SizeDelta: {x: 130.488, y: 38.0855}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &45462835
@@ -565,7 +577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPoints: 9
   targetCodex: {fileID: 629564780}
-  baseDamage: 500
+  baseDamage: 1
   spawnScript: {fileID: 1084906986}
   itemScript: {fileID: 1084906987}
   effects: {fileID: 1540386551010329255, guid: 36e4ab328e4912b4a97dc53e11e45f25, type: 3}
@@ -752,7 +764,7 @@ GameObject:
   - component: {fileID: 104824083}
   - component: {fileID: 104824082}
   m_Layer: 5
-  m_Name: ItemEffect
+  m_Name: CatClothesEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1042,7 +1054,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 155764675}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 580478216}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: UpgradeHumanGloves
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &155764675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1797,7 +1821,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Increase the rate of IDLE cat collections.
+  m_Text: Increase IDLE points gained in multiplicative.
 --- !u!222 &336150879
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1958,7 +1982,7 @@ GameObject:
   - component: {fileID: 360649252}
   - component: {fileID: 360649251}
   m_Layer: 5
-  m_Name: ItemEffect
+  m_Name: CatShoesEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2195,7 +2219,7 @@ GameObject:
   - component: {fileID: 396183632}
   - component: {fileID: 396183631}
   m_Layer: 5
-  m_Name: ItemEffect
+  m_Name: CatToyEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2344,7 +2368,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 409145471}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 580478216}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: UpgradeCatShoes
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &409145471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2521,6 +2557,11 @@ MonoBehaviour:
   invalidUpgradeScreen: {fileID: 252158728}
   invalidUpgradeText: {fileID: 1473769527}
   catHouseText: {fileID: 2074944741}
+  catFoodText: {fileID: 912774017}
+  humanGlovesText: {fileID: 1839104039}
+  catToyText: {fileID: 396183631}
+  catClothesText: {fileID: 104824082}
+  catShoesText: {fileID: 360649251}
   player: {fileID: 58646842}
 --- !u!1 &591742078
 GameObject:
@@ -2667,7 +2708,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Increase the points of IDLE cat collections.
+  m_Text: Increase IDLE points gained in additive.
 --- !u!222 &599914674
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3338,7 +3379,7 @@ GameObject:
   - component: {fileID: 912774018}
   - component: {fileID: 912774017}
   m_Layer: 5
-  m_Name: ItemEffect
+  m_Name: CatFoodEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5471,7 +5512,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1625357386}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 580478216}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: UpgradeCatFood
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1625357386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5667,7 +5720,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1750310182}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 580478216}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: UpgradeCatClothes
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1750310182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6026,7 +6091,7 @@ GameObject:
   - component: {fileID: 1839104040}
   - component: {fileID: 1839104039}
   m_Layer: 5
-  m_Name: ItemEffect
+  m_Name: HumanGlovesEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

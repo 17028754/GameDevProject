@@ -1,4 +1,4 @@
-	using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,33 +10,69 @@ public class PlayerInteraction : MonoBehaviour
 	public Transform targetCodex;
 	// Player Stats
 	public int baseDamage = 1;
+
+	// Items - start
+
+	// Items coding format:
+	// private int increaseDamage = 10; <--- the item's current effect
+	// public int IncreaseDamage { set { increaseDamage = value; }} <--- implement setter for upgrade button to change the item's current effect.
+	// private int increaseDamageCap = 16; <--- A cap to limit what is the max amount the player can get for this item, and make sure the player will not get it once its capped
+	// private int increaseDamageTracker = 0; <---  A tracker to keep track of the count that the player currently has for this item
+	// public int IncreaseDamageTracker { get { return increaseDamageTracker; }} <--- implementer a getter for the upgrade button to validate the upgrade
+
+	// Cat House (Increase Idle Rate in multiplication)
+	private int idleRateM = 1;
+	public int IdleRateM { get { return idleRateM; } set { idleRateM = value; }}
+	private int idleRateMCap = 16;
+	private int idleRateMTracker = 0;
+	public int IdleRateMTracker { get { return idleRateMTracker; }}
+	
+	// Cat Food (Increase Idle Rate points in addition)
+	private int idleRateA = 1;
+	public int IdleRateA { get {return idleRateA; } set { idleRateA = value; }}
+	private int idleRateACap = 16;
+	private int idleRateATracker = 0;
+	public int IdleRateATracker { get { return idleRateATracker; }}
+
+	// Human Gloves (Increase manual collection points)
+	private int manualCollect = 1;
+	public int ManualCollect { get {return manualCollect; } set { manualCollect = value; }}
+	private int manualCollectCap = 16;
+	private int manualCollectTracker = 0;
+	public int ManualCollectTracker { get { return manualCollectTracker; }}
+
 	// increase damage
 	private int increaseDamage = 10;
-	private int increaseDamageCap = 4;
+	public int IncreaseDamage { get {return increaseDamage; } set { increaseDamage = value; }}
+	private int increaseDamageCap = 16;
 	private int increaseDamageTracker = 0;
 	public int IncreaseDamageTracker { get { return increaseDamageTracker; }}
-	// Crit Chance
-	private int critChance = 10;
-	private int critChanceCap = 4;
-	private int critChanceTracker = 0;
+
 	// Crit Damage
 	private int critDamage = 10;
-	private int critDamageCap = 4;
+	public int CritDamage { get { return critDamage; } set { critDamage = value; }}
+	private int critDamageCap = 16;
 	private int critDamageTracker = 0;
-	// Cat House (Increase Idle Rate)
-	private int idleRate = 1;
-	public int IdleRate { get { return idleRate; } set { idleRate = value; }}
-	private int idleRateCap = 3;
-	private int idleRateTracker = 1;
-	public int IdleRateTracker { get { return idleRateTracker; }}
+	public int CritDamageTracker { get { return critDamageTracker; }}
+
+	// Crit Chance
+	private int critChance = 10;
+	public int CritChance { get {return critChance; } set { critChance = value; }}
+	private int critChanceCap = 16;
+	private int critChanceTracker = 0;
+	public int CritChanceTracker { get { return critChanceTracker; }}
+
+	// Items - end
 
 	private int points;
-	public int Points { get { return points; } set { idleRate = value; }}
+	public int Points { get { return points; } set { points = value; }}
 
 	private Vector3 position;
 	private GameObject collectCatObject;
 
 	private EnemyMovement bossCatScript;
+	public EnemyMovement BossCatScript { get { return bossCatScript; }}
+
 	private bool win = false;
 	public bool Win { get { return win; }}
 
@@ -53,6 +89,10 @@ public class PlayerInteraction : MonoBehaviour
 
 	//Damage Numbers
 	public GameObject floatingPoints;
+
+	//Boolean to make boss spawn when player is active
+	private bool canSpawn = false;
+	public bool CanSpawn { get { return canSpawn; }}
 
 
 
@@ -83,6 +123,13 @@ public class PlayerInteraction : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(click2D, Vector2.zero);
             if (hit.collider != null)
             {
+            	// Only make this run once
+            	if (!spawnScript.BossCatSpawnned)
+            	{
+            		// When player plays, make boss spawnable if the points is valid
+	            	canSpawn = true;
+            	}
+
 				//Damage pop up
 				Instantiate(floatingPoints, transform.position, Quaternion.identity);
 				if (hit.collider.gameObject.tag != "Boss" && hit.collider.gameObject.tag != "Walls")
@@ -97,7 +144,7 @@ public class PlayerInteraction : MonoBehaviour
 
 					// Deactive cat model then add points
 					hit.collider.gameObject.SetActive(false);
-	                points++;
+	                points++; // Use a gained points variable instead of adding on the points directly
 
 	                // Reduce the number of spawnned cats in spawner
 	                if (hit.collider.gameObject.tag == "CommonCat")
@@ -113,28 +160,48 @@ public class PlayerInteraction : MonoBehaviour
 	                	// Item foundation, at the moment only 3 item with 3 different basic stats are implemented
 	                	// Make sure there is error checking, do not over add values or select capped values
 	                	// Capturing box cat doesn't increase the stat value directly, upgrading does <--- Take note
-	                	// Haven't implement other items (CatHouse, CatFood, HumanGloves)
 	                	bool looper = true;
 	                	while (looper)
 	                	{
-		                	int rand = Random.Range(0, 3);
-		                	if (rand == 0 && increaseDamageTracker != increaseDamageCap)
+		                	int rand = Random.Range(0, 6);
+		                	// Idle Rate Multiplicative
+		                	if (rand == 0 && idleRateMTracker != idleRateMCap)
+		                	{
+		                		idleRateMTracker += 1;
+		                		looper = false;
+		                	}
+		                	// Idle Rate Addition
+		                	else if (rand == 1 && idleRateATracker != idleRateACap)
+		                	{
+		                		idleRateATracker += 1;
+		                		looper = false;
+		                	}
+		                	// Manual Collect
+		                	else if (rand == 2 && manualCollectTracker != manualCollectCap)
+		                	{
+		                		manualCollectTracker += 1;
+		                		looper = false; 
+		                	}
+		                	// Increase Damage
+		                	else if (rand == 3 && increaseDamageTracker != increaseDamageCap)
 		                	{
 		                		//increaseDamage += itemScript.increaseDmg;
 		                		increaseDamageTracker += 1;
 		                		looper = false;
 		                	}
-		                	else if (rand == 1 && critChanceTracker != critChanceCap)
-		                	{
-		                		//critChance += itemScript.critChance;
-		                		critChanceTracker += 1;
-		                		looper = false;
-		                	}
-		                	else if (rand == 2 && critDamageTracker != critDamageCap)
+		                	// Crit Damage
+		                	else if (rand == 4 && critDamageTracker != critDamageCap)
 		                	{
 		                		//critDamage += itemScript.critDmg;
 		                		critDamageTracker += 1;
 		                		looper = false; 
+		                	}
+		                	// Crit Chance
+		                	else if (rand == 5 && critChanceTracker != critChanceCap)
+		                	{
+		                		//critChance += itemScript.critChance;
+		                		critChanceTracker += 1;
+		                		looper = false;
 		                	}
 		                	else
 		                	{
@@ -199,6 +266,13 @@ public class PlayerInteraction : MonoBehaviour
         	// Once button is not pressed for more than 5 seconds, perform idle feature
         	if (timer > maxTimer)
         	{
+        		// Only do this once 
+        		if (!spawnScript.BossCatSpawnned)
+        		{
+        			// Make boss unspwanable when idle feature is active
+        			canSpawn = false;
+        		}
+
         		// Perform idle feature
 				commonCatList = ObjectPoolingManager.Instance.GetCommonCatList();   
 				foreach (GameObject cc in commonCatList)
@@ -225,9 +299,12 @@ public class PlayerInteraction : MonoBehaviour
 
 		                // // Deactive collected cat model after it has reached the codex
 		                StartCoroutine(deactivateObject());
-						break;
+
+		                break;
 					}
-				}     		
+				}
+
+
         	}
         }
     }
@@ -260,6 +337,7 @@ public class PlayerInteraction : MonoBehaviour
     public void increaseTimer()
     {
     	timer += 1;
+    	// Debug.Log (IdleRateM);
     }
 
 }

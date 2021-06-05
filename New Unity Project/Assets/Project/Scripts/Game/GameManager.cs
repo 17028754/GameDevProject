@@ -31,22 +31,32 @@ public class GameManager : MonoBehaviour
     	// Maximum value (don't know how to make it expand to right instead of both sides)
     	// Minimum starting value
     	// idleRateText.text = "IdleRate: 10points/second";
-    	if (player.IdleRate == 1)
+    	if (player.IdleRateM == 1)
     	{
     		idleRateText.text = "IdleRate: 1cat/3seconds";
     	}
-    	else if (player.IdleRate == 2)
+    	else if (player.IdleRateM == 2)
     	{
     		idleRateText.text = "IdleRate: 2cats/3seconds";
     	}
-    	else if (player.IdleRate == 3)
+    	else if (player.IdleRateM == 3)
     	{
     		idleRateText.text = "IdleRate: 3cats/3seconds";
     	}
 
+    	// Change spawn bar to reflect boss cat's current hp after boss cat is spawnned
+    	// Note: Boss spawn criteria (Points, must be the same as boss's max hp)
+    	if (!spawnScript.BossCatSpawnned)
+    	{
+    		bossSpawnBar.SetSpawnBar(player.Points);
+    	}
+    	else
+    	{
+    		bossSpawnBar.SetSpawnBar(player.BossCatScript.BossCatHP);
+    	}
 
-    	bossSpawnBar.SetSpawnBar(player.Points);
-        pointsText.text = "Points: " + player.Points;
+    	pointsText.text = "Points: " + player.Points;
+
 
         if (player.Win)
         {
