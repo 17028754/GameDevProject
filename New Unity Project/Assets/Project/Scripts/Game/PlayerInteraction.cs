@@ -94,6 +94,12 @@ public class PlayerInteraction : MonoBehaviour
 	private bool canSpawn = false;
 	public bool CanSpawn { get { return canSpawn; }}
 
+	// To pass the idle rate (Points per second) for GameManager to display on UI
+	private int idlePointsGained = 1;
+	public int IdlePointsGained { get { return idlePointsGained; }}
+
+	private int manualPointsGained = 0;
+
 
 
 
@@ -144,20 +150,28 @@ public class PlayerInteraction : MonoBehaviour
 
 					// Deactive cat model then add points
 					hit.collider.gameObject.SetActive(false);
-	                points++; // Use a gained points variable instead of adding on the points directly
+	                //points++; // Use a gained points variable instead of adding on the points directly
 
 	                // Reduce the number of spawnned cats in spawner
+	                // Add the points according to the cat types
 	                if (hit.collider.gameObject.tag == "CommonCat")
 	                {
-						
+						int gained_points = 1;
+						manualPointsGained = gained_points + gained_points*manualCollect/100;
+						points += manualPointsGained;
 						spawnScript.CommonCatSpawnned -= 1;
 	                } else if (hit.collider.gameObject.tag == "UniqueCat")
 	                {
+	                	int gained_points = 10;
+						manualPointsGained = gained_points + gained_points*manualCollect/100;
+						points += manualPointsGained;
 	                	spawnScript.UniqueCatSpawnned -= 1;
 	                } else if (hit.collider.gameObject.tag == "BoxCat")
 	                {
+	                	int gained_points = 1;
+						manualPointsGained = gained_points + gained_points*manualCollect/100;
+						points += manualPointsGained;
 	                	spawnScript.BoxCatSpawnned -= 1;
-	                	// Item foundation, at the moment only 3 item with 3 different basic stats are implemented
 	                	// Make sure there is error checking, do not over add values or select capped values
 	                	// Capturing box cat doesn't increase the stat value directly, upgrading does <--- Take note
 	                	bool looper = true;
@@ -280,7 +294,10 @@ public class PlayerInteraction : MonoBehaviour
 					if(cc.activeInHierarchy && cc.transform.position.x < 8f && cc.transform.position.x > -8f)
 					{
 						cc.SetActive(false);
-						points++;
+						//points++;
+						int gained_points = 1;
+						idlePointsGained = gained_points + gained_points*IdleRateM/100 + IdleRateA;
+						points += idlePointsGained;
 						spawnScript.CommonCatSpawnned -= 1;
 						// timer change to 4, so that idle feature will automatically collect one cat every 1 second
 						timer = 4;
