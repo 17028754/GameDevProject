@@ -88,7 +88,7 @@ public class PlayerInteraction : MonoBehaviour
 	public GameObject effects;
 
 	//Damage Numbers
-	public GameObject floatingPoints;
+	public bool clicked = false;
 
 	//Boolean to make boss spawn when player is active
 	private bool canSpawn = false;
@@ -101,19 +101,17 @@ public class PlayerInteraction : MonoBehaviour
 	private int manualPointsGained = 0;
 
 
-
-
 	// Start is called before the first frame update
 	void Start()
     {
         points = initialPoints;
         InvokeRepeating("increaseTimer", 1f, 1f);
-    }
+
+	}
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
     	// Check if button is pressed	
        if (Input.GetMouseButtonDown(0))
         {
@@ -137,141 +135,151 @@ public class PlayerInteraction : MonoBehaviour
             	}
 
 				//Damage pop up
-				Instantiate(floatingPoints, transform.position, Quaternion.identity);
+				
 				if (hit.collider.gameObject.tag != "Boss" && hit.collider.gameObject.tag != "Walls")
-	            {
+				{
 
 					// Define the position that the collected cat spirte has to spawn
 					position = hit.collider.gameObject.transform.position;
+					clicked = true;
 
-					
+
 					// Effects
 					Instantiate(effects, transform.position, Quaternion.identity);
 
 					// Deactive cat model then add points
 					hit.collider.gameObject.SetActive(false);
-	                //points++; // Use a gained points variable instead of adding on the points directly
+					//points++; // Use a gained points variable instead of adding on the points directly
 
-	                // Reduce the number of spawnned cats in spawner
-	                // Add the points according to the cat types
-	                if (hit.collider.gameObject.tag == "CommonCat")
-	                {
+					// Reduce the number of spawnned cats in spawner
+					// Add the points according to the cat types
+					if (hit.collider.gameObject.tag == "CommonCat")
+					{
 						int gained_points = 1;
-						manualPointsGained = gained_points + gained_points*manualCollect/100;
+						manualPointsGained = gained_points + gained_points * manualCollect / 100;
 						points += manualPointsGained;
 						spawnScript.CommonCatSpawnned -= 1;
-	                } else if (hit.collider.gameObject.tag == "UniqueCat")
-	                {
-	                	int gained_points = 10;
-						manualPointsGained = gained_points + gained_points*manualCollect/100;
+					}
+					else if (hit.collider.gameObject.tag == "UniqueCat")
+					{
+						int gained_points = 10;
+						manualPointsGained = gained_points + gained_points * manualCollect / 100;
 						points += manualPointsGained;
-	                	spawnScript.UniqueCatSpawnned -= 1;
-	                } else if (hit.collider.gameObject.tag == "BoxCat")
-	                {
-	                	int gained_points = 1;
-						manualPointsGained = gained_points + gained_points*manualCollect/100;
+						spawnScript.UniqueCatSpawnned -= 1;
+					}
+					else if (hit.collider.gameObject.tag == "BoxCat")
+					{
+						int gained_points = 1;
+						manualPointsGained = gained_points + gained_points * manualCollect / 100;
 						points += manualPointsGained;
-	                	spawnScript.BoxCatSpawnned -= 1;
-	                	// Make sure there is error checking, do not over add values or select capped values
-	                	// Capturing box cat doesn't increase the stat value directly, upgrading does <--- Take note
-	                	bool looper = true;
-	                	while (looper)
-	                	{
-		                	int rand = Random.Range(0, 6);
-		                	// Idle Rate Multiplicative
-		                	if (rand == 0 && idleRateMTracker != idleRateMCap)
-		                	{
-		                		idleRateMTracker += 1;
-		                		looper = false;
-		                	}
-		                	// Idle Rate Addition
-		                	else if (rand == 1 && idleRateATracker != idleRateACap)
-		                	{
-		                		idleRateATracker += 1;
-		                		looper = false;
-		                	}
-		                	// Manual Collect
-		                	else if (rand == 2 && manualCollectTracker != manualCollectCap)
-		                	{
-		                		manualCollectTracker += 1;
-		                		looper = false; 
-		                	}
-		                	// Increase Damage
-		                	else if (rand == 3 && increaseDamageTracker != increaseDamageCap)
-		                	{
-		                		//increaseDamage += itemScript.increaseDmg;
-		                		increaseDamageTracker += 1;
-		                		looper = false;
-		                	}
-		                	// Crit Damage
-		                	else if (rand == 4 && critDamageTracker != critDamageCap)
-		                	{
-		                		//critDamage += itemScript.critDmg;
-		                		critDamageTracker += 1;
-		                		looper = false; 
-		                	}
-		                	// Crit Chance
-		                	else if (rand == 5 && critChanceTracker != critChanceCap)
-		                	{
-		                		//critChance += itemScript.critChance;
-		                		critChanceTracker += 1;
-		                		looper = false;
-		                	}
-		                	else
-		                	{
-		                		looper = false;
-		                	}
-	                	}
-	                }
+						spawnScript.BoxCatSpawnned -= 1;
+						// Make sure there is error checking, do not over add values or select capped values
+						// Capturing box cat doesn't increase the stat value directly, upgrading does <--- Take note
+						bool looper = true;
+						while (looper)
+						{
+							int rand = Random.Range(0, 6);
+							// Idle Rate Multiplicative
+							if (rand == 0 && idleRateMTracker != idleRateMCap)
+							{
+								idleRateMTracker += 1;
+								looper = false;
+							}
+							// Idle Rate Addition
+							else if (rand == 1 && idleRateATracker != idleRateACap)
+							{
+								idleRateATracker += 1;
+								looper = false;
+							}
+							// Manual Collect
+							else if (rand == 2 && manualCollectTracker != manualCollectCap)
+							{
+								manualCollectTracker += 1;
+								looper = false;
+							}
+							// Increase Damage
+							else if (rand == 3 && increaseDamageTracker != increaseDamageCap)
+							{
+								//increaseDamage += itemScript.increaseDmg;
+								increaseDamageTracker += 1;
+								looper = false;
+							}
+							// Crit Damage
+							else if (rand == 4 && critDamageTracker != critDamageCap)
+							{
+								//critDamage += itemScript.critDmg;
+								critDamageTracker += 1;
+								looper = false;
+							}
+							// Crit Chance
+							else if (rand == 5 && critChanceTracker != critChanceCap)
+							{
+								//critChance += itemScript.critChance;
+								critChanceTracker += 1;
+								looper = false;
+							}
+							else
+							{
+								looper = false;
+							}
+						}
+					}
 
 
 
 
-	                // Then obtain collected cat model from PoolingManager, and spawn it at the clicked cat model's location
-	                collectCatObject = ObjectPoolingManager.Instance.GetCCP();
-	                collectCatObject.transform.position = position;
+					// Then obtain collected cat model from PoolingManager, and spawn it at the clicked cat model's location
+					collectCatObject = ObjectPoolingManager.Instance.GetCCP();
+					collectCatObject.transform.position = position;
 
-	                // Perform the smooth animation to move the collected cat model to the codex
-	                StartCoroutine(moveObject());
+					// Perform the smooth animation to move the collected cat model to the codex
+					StartCoroutine(moveObject());
 
-	                // // Deactive collected cat model after it has reached the codex
-	                StartCoroutine(deactivateObject());
-	            }
-	            // if the player clicked on "boss" tag object, deal damage accordingly
-	            else if (hit.collider.gameObject.tag == "Boss")
-	            {
-	            	bossCatScript = hit.collider.gameObject.GetComponent<EnemyMovement>();
+					// // Deactive collected cat model after it has reached the codex
+					StartCoroutine(deactivateObject());
+				}
+				// if the player clicked on "boss" tag object, deal damage accordingly
+				else if (hit.collider.gameObject.tag == "Boss")
+				{
+					clicked = true;
+					bossCatScript = hit.collider.gameObject.GetComponent<EnemyMovement>();
 
 
-	            	// Debug.Log("This is increase damage: " + increaseDamage);
-	            	// Debug.Log("This is increase crit chance " + critChance);
-	            	// Debug.Log("This is increase crit dmg : " + critDamage);
+					// Debug.Log("This is increase damage: " + increaseDamage);
+					// Debug.Log("This is increase crit chance " + critChance);
+					// Debug.Log("This is increase crit dmg : " + critDamage);
 
-	            	int totalDamage = baseDamage + baseDamage*increaseDamage/100;
-	            	// Debug.Log("This is total damage: " + totalDamage);
+					int totalDamage = baseDamage + baseDamage * increaseDamage / 100;
+					// Debug.Log("This is total damage: " + totalDamage);
 
-	            	int rand = Random.Range(0, 100);
-	            	// Debug.Log("This is rand : " + rand);
-	            	
-	            	if (rand < critChance)
-	            	{
-	            		totalDamage = totalDamage + totalDamage*critDamage/100;
-	            		// Debug.Log("Total damage when crit: " + totalDamage);
-	            	}
-	            	// Debug.Log("Boss Before getting damaged health: " + bossCatScript.BossCatHP);
-	            	bossCatScript.BossCatHP -= totalDamage;
-	            	// Debug.Log("Boss remaining health: " + bossCatScript.BossCatHP);
+					int rand = Random.Range(0, 100);
+					// Debug.Log("This is rand : " + rand);
 
-	            	if (bossCatScript.BossCatHP <= 0)
-	            	{
-	            		hit.collider.gameObject.SetActive(false);
-	            		win = true;
-	            	}
-	            }
+					if (rand < critChance)
+					{
+						totalDamage = totalDamage + totalDamage * critDamage / 100;
+						// Debug.Log("Total damage when crit: " + totalDamage);
+					}
+					// Debug.Log("Boss Before getting damaged health: " + bossCatScript.BossCatHP);
+					bossCatScript.BossCatHP -= totalDamage;
+					// Debug.Log("Boss remaining health: " + bossCatScript.BossCatHP);
 
-	            timer = 0;
-        	}
-        }
+					if (bossCatScript.BossCatHP <= 0)
+					{
+						hit.collider.gameObject.SetActive(false);
+						win = true;
+					}
+				}
+
+				timer = 0;
+			}
+
+
+
+
+
+		}
+				
 
         // Check how long is user idle (button not pressed)
         if(!Input.GetMouseButtonDown(0))
