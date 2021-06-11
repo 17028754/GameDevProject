@@ -38,10 +38,12 @@ public class ObjectPoolingManager : MonoBehaviour
     public int amountOfEffects = 1;
     private List<GameObject> effects;
 
+    /*
     [Header("Damage")]
     public GameObject damagePrefab;
     public int amountOfDamage = 1;
     private List<GameObject> damage;
+    */
 
     // Use this for initialization
     void Awake ()
@@ -119,7 +121,7 @@ public class ObjectPoolingManager : MonoBehaviour
 
             effects.Add(prefabInstance);
         }
-
+        /*
         //damage
         damage = new List<GameObject>(amountOfDamage);
 
@@ -131,6 +133,7 @@ public class ObjectPoolingManager : MonoBehaviour
 
             damage.Add(prefabInstance);
         }
+        */
     }
 
 
@@ -233,6 +236,7 @@ public class ObjectPoolingManager : MonoBehaviour
 
         return null;
     }
+    /*
     public GameObject GetDamage()
     {
         foreach (GameObject damage in damage)
@@ -246,6 +250,7 @@ public class ObjectPoolingManager : MonoBehaviour
 
         return null;
     }
+    */
 
     // Access common cats that have been activated (for idle feature)
     public List<GameObject> GetCommonCatList()

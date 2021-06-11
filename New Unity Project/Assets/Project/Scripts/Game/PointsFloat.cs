@@ -18,10 +18,14 @@ public class PointsFloat : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
+    }
+    public void Floatpoints(Vector3 y)
+    {
         if (c.clicked)
         {
 
-            Instantiate(floatingPoints, gameObject.transform.position, Quaternion.identity);
+            Instantiate(floatingPoints, y, Quaternion.identity);
             c.clicked = false;
             pointsFloated = true;
 

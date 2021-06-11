@@ -582,6 +582,7 @@ MonoBehaviour:
   itemScript: {fileID: 1084906987}
   effects: {fileID: 1540386551010329255, guid: 36e4ab328e4912b4a97dc53e11e45f25, type: 3}
   clicked: 0
+  floatingPoints: {fileID: 8268695497964015763, guid: b2466322cec733b438e904cda894aea7, type: 3}
 --- !u!4 &58646843
 Transform:
   m_ObjectHideFlags: 0
@@ -4083,8 +4084,6 @@ MonoBehaviour:
   bossCatPrefab: {fileID: 7357088650420401236, guid: 8e7ff3f2f111e7143b606ae77671ed47, type: 3}
   effectPrefab: {fileID: 1540386551010329255, guid: 36e4ab328e4912b4a97dc53e11e45f25, type: 3}
   amountOfEffects: 1
-  damagePrefab: {fileID: 3405158177890401884, guid: dc1b1d075e433df44bb783fac3da3421, type: 3}
-  amountOfDamage: 1
 --- !u!4 &1100970271
 Transform:
   m_ObjectHideFlags: 0
@@ -6488,7 +6487,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 911386626}
   m_Direction: 2
   m_Value: 1.0000002
-  m_Size: 0.73157984
+  m_Size: 0.7315799
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

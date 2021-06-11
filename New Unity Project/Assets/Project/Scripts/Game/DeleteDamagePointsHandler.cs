@@ -8,8 +8,8 @@ public class DeleteDamagePointsHandler : MonoBehaviour
     void Start()
     {
         
-        Destroy(gameObject, 1f);
-        transform.localPosition += new Vector3(0, 0.8f, 0);
+        Destroy(gameObject, 1.5f);
+        transform.localPosition += new Vector3(0, 1.4f, 0);
 
     }
 

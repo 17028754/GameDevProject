@@ -100,6 +100,7 @@ public class PlayerInteraction : MonoBehaviour
 
 	private int manualPointsGained = 0;
 
+	public GameObject floatingPoints;
 
 	// Start is called before the first frame update
 	void Start()
@@ -112,7 +113,7 @@ public class PlayerInteraction : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-    	// Check if button is pressed	
+    	// Check if buttson is pressed	
        if (Input.GetMouseButtonDown(0))
         {
 
@@ -134,16 +135,18 @@ public class PlayerInteraction : MonoBehaviour
 	            	canSpawn = true;
             	}
 
+				clicked = true;
 				//Damage pop up
-				
+
 				if (hit.collider.gameObject.tag != "Boss" && hit.collider.gameObject.tag != "Walls")
 				{
 
 					// Define the position that the collected cat spirte has to spawn
 					position = hit.collider.gameObject.transform.position;
-					clicked = true;
-
-
+					if (clicked)
+					{
+						Instantiate(floatingPoints, position, Quaternion.identity); ;
+					}
 					// Effects
 					Instantiate(effects, transform.position, Quaternion.identity);
 
@@ -241,7 +244,12 @@ public class PlayerInteraction : MonoBehaviour
 				// if the player clicked on "boss" tag object, deal damage accordingly
 				else if (hit.collider.gameObject.tag == "Boss")
 				{
-					clicked = true;
+					position = hit.collider.gameObject.transform.position;
+					if (clicked)
+					{
+						Instantiate(floatingPoints, position, Quaternion.identity);
+					}
+
 					bossCatScript = hit.collider.gameObject.GetComponent<EnemyMovement>();
 
 
