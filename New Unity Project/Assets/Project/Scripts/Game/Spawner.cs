@@ -44,12 +44,6 @@ public class Spawner : MonoBehaviour
 	private int bossSpawnCriteria = 10;
 	public int BossSpawnCriteria { get { return bossSpawnCriteria; } set { bossSpawnCriteria = value; }}
 
-	public int effectsSpawned = 0;
-	public int Effects { get { return effectsSpawned; } set { effectsSpawned = value; } }
-
-	public int damagesSpawned = 0;
-	public int Damages { get { return damagesSpawned; } set { damagesSpawned = value; } }
-
 	// Start is called before the first frame update
 	void Start()
     {
@@ -66,27 +60,7 @@ public class Spawner : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
 
-
-    }
-
-	// public void effects()
- //    {
- //        if (effectsSpawned < 1)
- //        {
-	// 		GameObject Effects = ObjectPoolingManager.Instance.GetEffects();
-	// 	}
- //    }
-	// public void damage()
-	// {
-	// 	if (damagesSpawned < 1)
-	// 	{
-	// 		GameObject Damages = ObjectPoolingManager.Instance.GetDamage();
-	// 	}
-	// }
 	public void spawnCommonCat()
     {
     	// Check if there is enough common cat spawnned
@@ -248,14 +222,6 @@ public class Spawner : MonoBehaviour
 		}
     	
     }
-
-    // // Function to wait for 1 to 2 seconds before spawnning next cat
-    // public IEnumerator waitSeconds()
-    // {
-
-    // 	float timer = Random.Range(1f, 2f);
-    // 	yield return new WaitForSeconds(timer);
-    // } 
 
 
     // Randomly generate the position for next cat spawn

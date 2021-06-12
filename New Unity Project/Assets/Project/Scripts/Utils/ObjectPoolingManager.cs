@@ -32,17 +32,7 @@ public class ObjectPoolingManager : MonoBehaviour
 	public GameObject bossCatPrefab;
 	private int amountBossCat = 1;
 	private List<GameObject> bossCat;
-
-    [Header("Effects")]
-    public GameObject effectPrefab;
-    public int amountOfEffects = 1;
-    private List<GameObject> effects;
-
-    [Header("Damage")]
-    public GameObject damagePrefab;
-    public int amountOfDamage = 1;
-    private List<GameObject> damage;
-
+	
     // Use this for initialization
     void Awake ()
     {
@@ -108,29 +98,6 @@ public class ObjectPoolingManager : MonoBehaviour
         	bossCat.Add(prefabInstance);
         }
 
-        //effects
-        effects = new List<GameObject>(amountOfEffects);
-
-        for (int i = 0; i < amountOfEffects; i++)
-        {
-            GameObject prefabInstance = Instantiate(effectPrefab);
-            prefabInstance.transform.SetParent(transform);
-            prefabInstance.SetActive(false);
-
-            effects.Add(prefabInstance);
-        }
-
-        //damage
-        damage = new List<GameObject>(amountOfDamage);
-
-        for (int i = 0; i < amountOfDamage; i++)
-        {
-            GameObject prefabInstance = Instantiate(damagePrefab);
-            prefabInstance.transform.SetParent(transform);
-            prefabInstance.SetActive(false);
-
-            damage.Add(prefabInstance);
-        }
     }
 
 
@@ -218,33 +185,6 @@ public class ObjectPoolingManager : MonoBehaviour
     	}
 
     	return null;
-    }
-
-    public GameObject GetEffects()
-    {
-        foreach (GameObject effect in effects)
-        {
-            if (!effect.activeInHierarchy)
-            {
-                effect.SetActive(true);
-                return effect;
-            }
-        }
-
-        return null;
-    }
-    public GameObject GetDamage()
-    {
-        foreach (GameObject damage in damage)
-        {
-            if (!damage.activeInHierarchy)
-            {
-                damage.SetActive(true);
-                return damage;
-            }
-        }
-
-        return null;
     }
 
     // Access common cats that have been activated (for idle feature)

@@ -581,7 +581,7 @@ MonoBehaviour:
   spawnScript: {fileID: 1084906986}
   itemScript: {fileID: 1084906987}
   effects: {fileID: 1540386551010329255, guid: 36e4ab328e4912b4a97dc53e11e45f25, type: 3}
-  floatingPoints: {fileID: 3405158177890401884, guid: dc1b1d075e433df44bb783fac3da3421, type: 3}
+  floatingPoints: {fileID: 7261663041160207402, guid: dc1b1d075e433df44bb783fac3da3421, type: 3}
 --- !u!4 &58646843
 Transform:
   m_ObjectHideFlags: 0
@@ -3936,8 +3936,6 @@ MonoBehaviour:
   player: {fileID: 58646842}
   uniqueBaseSpawn: 1
   boxBaseSpawn: 1
-  effectsSpawned: 0
-  damagesSpawned: 0
 --- !u!114 &1084906987
 MonoBehaviour:
   m_ObjectHideFlags: 0

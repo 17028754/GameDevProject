@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -101,8 +102,6 @@ public class PlayerInteraction : MonoBehaviour
 	private int manualPointsGained = 0;
 
 
-
-
 	// Start is called before the first frame update
 	void Start()
     {
@@ -136,15 +135,16 @@ public class PlayerInteraction : MonoBehaviour
 	            	canSpawn = true;
             	}
 
-				//Damage pop up
-				Instantiate(floatingPoints, transform.position, Quaternion.identity);
+			
 				if (hit.collider.gameObject.tag != "Boss" && hit.collider.gameObject.tag != "Walls")
 	            {
 
 					// Define the position that the collected cat spirte has to spawn
 					position = hit.collider.gameObject.transform.position;
-
 					
+					//Damage pop up
+					// Instantiate(floatingPoints, position, Quaternion.identity);
+
 					// Effects
 					Instantiate(effects, transform.position, Quaternion.identity);
 
@@ -224,8 +224,9 @@ public class PlayerInteraction : MonoBehaviour
 	                	}
 	                }
 
-
-
+	                // Points pop up
+	                GameObject menualPointsPopUp = Instantiate(floatingPoints, position, Quaternion.identity) as GameObject;
+					menualPointsPopUp.transform.GetComponent<TextMesh>().text = manualPointsGained.ToString();
 
 	                // Then obtain collected cat model from PoolingManager, and spawn it at the clicked cat model's location
 	                collectCatObject = ObjectPoolingManager.Instance.GetCCP();
@@ -236,10 +237,15 @@ public class PlayerInteraction : MonoBehaviour
 
 	                // // Deactive collected cat model after it has reached the codex
 	                StartCoroutine(deactivateObject());
+
 	            }
 	            // if the player clicked on "boss" tag object, deal damage accordingly
 	            else if (hit.collider.gameObject.tag == "Boss")
 	            {
+
+	            	// Define the position of the boss cat
+					position = hit.collider.gameObject.transform.position;
+
 	            	bossCatScript = hit.collider.gameObject.GetComponent<EnemyMovement>();
 
 
@@ -258,6 +264,11 @@ public class PlayerInteraction : MonoBehaviour
 	            		totalDamage = totalDamage + totalDamage*critDamage/100;
 	            		// Debug.Log("Total damage when crit: " + totalDamage);
 	            	}
+
+	            	// Damage pop up
+	            	GameObject damageBossPopUp = Instantiate(floatingPoints, position, Quaternion.identity) as GameObject;
+					damageBossPopUp.transform.GetComponent<TextMesh>().text = totalDamage.ToString();
+
 	            	// Debug.Log("Boss Before getting damaged health: " + bossCatScript.BossCatHP);
 	            	bossCatScript.BossCatHP -= totalDamage;
 	            	// Debug.Log("Boss remaining health: " + bossCatScript.BossCatHP);
@@ -302,10 +313,13 @@ public class PlayerInteraction : MonoBehaviour
 						// timer change to 4, so that idle feature will automatically collect one cat every 1 second
 						timer = 4;
 
-						// Obtain position for collected cat model to spawn at the right location
+						// Points pop up
 						position = cc.transform.position;
+						GameObject idlePointsPopUp = Instantiate(floatingPoints, position, Quaternion.identity) as GameObject;
+						idlePointsPopUp.transform.GetComponent<TextMesh>().text = idlePointsGained.ToString();
+
+						// Obtain position for collected cat model to spawn at the right location
 						Instantiate(effects, transform.position, Quaternion.identity);
-						spawnScript.effectsSpawned -= 1;
 
 		                // Then obtain collected cat model from PoolingManager, and spawn it at the clicked cat model's location
 		                collectCatObject = ObjectPoolingManager.Instance.GetCCP();
