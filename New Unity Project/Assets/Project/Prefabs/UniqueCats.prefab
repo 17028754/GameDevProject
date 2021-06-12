@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 768244604422514888}
   - component: {fileID: 3366422681423387385}
   - component: {fileID: 8805950899702317705}
-  - component: {fileID: -2306707621260442144}
   m_Layer: 9
   m_Name: UniqueCats
   m_TagString: UniqueCat
@@ -73,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1904432461
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: baa0c643131554ff99574059ec7da1cc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -156,17 +155,3 @@ MonoBehaviour:
   options:
   - HorizontalDirection
   - DigonalDirection
---- !u!114 &-2306707621260442144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 761421648796067051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f60ce4afea7dcb428294afb9b9c201a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floatingPoints: {fileID: 8268695497964015763, guid: b2466322cec733b438e904cda894aea7, type: 3}
-  pointsFloated: 0

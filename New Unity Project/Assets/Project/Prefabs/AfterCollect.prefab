@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 6925363583833083174}
   - component: {fileID: 6925363583833083169}
   - component: {fileID: 5489511791670624304}
+  - component: {fileID: -2578246265586980300}
   - component: {fileID: 3529800210401516349}
-  - component: {fileID: -4648936318498273197}
-  - component: {fileID: 698212918221784717}
   m_Layer: 6
   m_Name: AfterCollect
   m_TagString: CommonCat
@@ -73,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1904432461
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bdce2a9cb3d0242958c2593a3b8d8742, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -107,6 +106,29 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-2578246265586980300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6925363583833083168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ae95a73854e1c45b7a20d7abe0c017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contactChecker: {fileID: 0}
+  p: {x: 0, y: 0}
+  appear: 0
+  bossCat: 0
+  commonCat: 1
+  uniqueCat: 0
+  boxCat: 0
+  initialBossCatHP: 1000
+  options:
+  - HorizontalDirection
+  - DigonalDirection
 --- !u!61 &3529800210401516349
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -133,40 +155,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.21, y: 0.21}
   m_EdgeRadius: 0
---- !u!114 &-4648936318498273197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6925363583833083168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9ae95a73854e1c45b7a20d7abe0c017, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  contactChecker: {fileID: 0}
-  p: {x: 0, y: 0}
-  appear: 0
-  bossCat: 0
-  commonCat: 0
-  uniqueCat: 0
-  boxCat: 0
-  initialBossCatHP: 1000
-  options:
-  - HorizontalDirection
-  - DigonalDirection
---- !u!114 &698212918221784717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6925363583833083168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f60ce4afea7dcb428294afb9b9c201a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floatingPoints: {fileID: 8268695497964015763, guid: b2466322cec733b438e904cda894aea7, type: 3}
-  pointsFloated: 0

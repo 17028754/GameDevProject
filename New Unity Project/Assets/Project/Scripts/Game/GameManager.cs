@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 public class GameManager : MonoBehaviour
 {
 
@@ -10,8 +10,7 @@ public class GameManager : MonoBehaviour
 	public PlayerInteraction player;
 	public Spawner spawnScript;
 
-
-    [Header("UI")]
+	[Header("UI")]
 	public Text pointsText;
 	public Image VictoryScreen;
 	public Text victoryScreen;
@@ -54,6 +53,4 @@ public class GameManager : MonoBehaviour
         	// gameObject.GetComponent<Spawner>().enabled = false;
         }
     }
-    
-    
 }

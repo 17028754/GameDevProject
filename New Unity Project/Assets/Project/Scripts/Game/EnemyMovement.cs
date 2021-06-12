@@ -4,6 +4,7 @@ using UnityEngine;
 
 //The length of the vector is square root of (x*x+y*y+z*z)
 
+
 public class EnemyMovement : MonoBehaviour
 {
     private Rigidbody2D rb2d;
@@ -32,18 +33,11 @@ public class EnemyMovement : MonoBehaviour
 
     public string[] options = new string[] {"HorizontalDirection", "DigonalDirection"};
 
-    //public GameObject floatingPoints;
-   // private PlayerInteraction c;
-    //public bool pointsFloated = false;
-
-
 
     // Start is called before the first frame update
     void Start()
     {
-       
-        spawnScript = FindObjectOfType<GameManager>().GetComponent<Spawner>();
-        //c = FindObjectOfType<PlayerInteraction>().GetComponent<PlayerInteraction>();
+    	spawnScript = FindObjectOfType<GameManager>().GetComponent<Spawner>();	
         rb2d = GetComponent<Rigidbody2D>();
         p = transform.position;
         if (bossCat)
@@ -56,7 +50,6 @@ public class EnemyMovement : MonoBehaviour
     void Update()
     {
         //transform.Translate(move * speed * Time.deltaTime);
-       
 
     }
 
@@ -65,24 +58,12 @@ public class EnemyMovement : MonoBehaviour
     {
     	rb2d = GetComponent<Rigidbody2D>();
         int rand = Random.Range(0, 2);
-        Invoke(options[rand], 0);
-        
+        Invoke(options[rand], 0);  	
     }
 
    
     void FixedUpdate()
     {
-        /*
-        if (c.clicked)
-        {
-
-            Instantiate(floatingPoints, gameObject.transform.position, Quaternion.identity);
-            c.clicked = false;
-            pointsFloated = true;
-
-        }
-        */
-
         if ((transform.position.x > 12) || (transform.position.x < -12))
         {
             if (bossCat == true)
@@ -102,8 +83,6 @@ public class EnemyMovement : MonoBehaviour
                 spawnScript.CommonCatSpawnned -= 1;
 
             }
-        
-
 
             // At the moment, just make special cats bounce off a special wall instead of despawning it and respawning it
             // Need to fix animation (flip to the other side when bounced)
