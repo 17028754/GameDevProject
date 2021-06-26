@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInteraction : MonoBehaviour//, ISaveable
+public class PlayerInteraction : MonoBehaviour, ISaveable
 {
 
 	[Header("Gameplay")]
@@ -42,21 +42,21 @@ public class PlayerInteraction : MonoBehaviour//, ISaveable
 	private int manualCollectTracker = 0;
 	public int ManualCollectTracker { get { return manualCollectTracker; }}
 
-	// increase damage
+	// Cat Toy (Increase damage)
 	private int increaseDamage = 10;
 	public int IncreaseDamage { get {return increaseDamage; } set { increaseDamage = value; }}
 	private int increaseDamageCap = 16;
 	private int increaseDamageTracker = 0;
 	public int IncreaseDamageTracker { get { return increaseDamageTracker; }}
 
-	// Crit Damage
+	// Cat Clothes (Increase crit damage)
 	private int critDamage = 10;
 	public int CritDamage { get { return critDamage; } set { critDamage = value; }}
 	private int critDamageCap = 16;
 	private int critDamageTracker = 0;
 	public int CritDamageTracker { get { return critDamageTracker; }}
 
-	// Crit Chance
+	// Cat Shoes (Increase crit chance)
 	private int critChance = 10;
 	public int CritChance { get {return critChance; } set { critChance = value; }}
 	private int critChanceCap = 16;
@@ -386,7 +386,7 @@ public class PlayerInteraction : MonoBehaviour//, ISaveable
 
 
     // Things to save:
-    // 1. Items
+    // 1. Items <--- DONE (Need more testing)
     // 2. Points <--- DONE
     // 3. Boss current health, and spawn <--- DONE
 
@@ -404,15 +404,44 @@ public class PlayerInteraction : MonoBehaviour//, ISaveable
 
     public void PopulateSaveData(SaveData a_SaveData)
     {
+    	// Save points
     	a_SaveData.s_points = points;
 
 
+    	// Save boss condition (if its spawned)
         if (spawnScript.BossCatSpawnned)
         {
         	a_SaveData.s_canSpawn = canSpawn;
         	a_SaveData.s_bossCatHP = bossCatHP;
         	// Debug.Log("Saving: " + bossCatHP);
         }
+
+        // Save items
+        // Cat House 
+        a_SaveData.s_idleRateM = idleRateM;
+        a_SaveData.s_idleRateMTracker = idleRateMTracker;
+
+        // Cat Food
+        a_SaveData.s_idleRateA = idleRateA;
+        a_SaveData.s_idleRateATracker = idleRateATracker;
+
+        // Human Gloves
+        a_SaveData.s_manualCollect = manualCollect;
+        a_SaveData.s_manualCollectTracker = manualCollectTracker;
+
+        // Cat Toy
+        a_SaveData.s_increaseDamage = increaseDamage;
+        a_SaveData.s_increaseDamageTracker = increaseDamageTracker;
+
+        // Cat Clothes 
+        a_SaveData.s_critDamage = critDamage;
+        a_SaveData.s_critDamageTracker = critDamageTracker;
+
+        // Cat Shoes
+        a_SaveData.s_critChance = critChance;
+        a_SaveData.s_critChanceTracker = critChanceTracker;
+
+
     }
 
    // Loading Data
@@ -430,8 +459,10 @@ public class PlayerInteraction : MonoBehaviour//, ISaveable
 
     public void LoadFromSaveData(SaveData a_SaveData)
     {
+    	// Load points
     	points = a_SaveData.s_points;
 
+    	// Load boss data
     	if (a_SaveData.s_canSpawn)
         {
         	// Data reference for EnemyMovemen script
@@ -441,7 +472,38 @@ public class PlayerInteraction : MonoBehaviour//, ISaveable
         	bossCatHP = a_SaveData.s_bossCatHP;
         	// Debug.Log("Loading: " + bossCatHP);
         }
+
+        // Load Items
+        // Cat house
+        idleRateM = a_SaveData.s_idleRateM;
+        idleRateMTracker = a_SaveData.s_idleRateMTracker;
+
+        // Cat Food
+        idleRateA = a_SaveData.s_idleRateA;
+        idleRateATracker = a_SaveData.s_idleRateATracker;
+
+        // Human Gloves
+        manualCollect = a_SaveData.s_manualCollect;
+        manualCollectTracker = a_SaveData.s_manualCollectTracker;
+
+        // Cat Toy
+        increaseDamage = a_SaveData.s_increaseDamage;
+        increaseDamageTracker = a_SaveData.s_increaseDamageTracker;
+
+        // Cat Clothes
+        critDamage = a_SaveData.s_critDamage;
+        critDamageTracker = a_SaveData.s_critDamageTracker;
+
+        // Cat Shoes
+        critChance = a_SaveData.s_critChance;
+        critChanceTracker = a_SaveData.s_critChanceTracker;
+
     }
 
+    // Function to be used by menu, so when user upgrades an item, this function will be called to save the changes
+    public void saveItemData()
+    {
+    	SaveJsonData(this);
+    }
 
 }

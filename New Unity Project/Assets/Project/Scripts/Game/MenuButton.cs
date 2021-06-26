@@ -111,6 +111,8 @@ public class MenuButton : MonoBehaviour
 			// Debug.Log("After upgrade: ");
 			// Debug.Log("DupReq: " + catHouseDupReq);
 			// Debug.Log("PointsReq: " + catHousePointsReq);
+
+			player.saveItemData();
 		}
 		else
 		{
@@ -132,6 +134,8 @@ public class MenuButton : MonoBehaviour
 			player.Points = player.Points - catFoodPointsReq;
 			catFoodDupReq *= 2;
 			catFoodPointsReq *= 2;
+
+			player.saveItemData();
 		}
 		else
 		{
@@ -153,6 +157,8 @@ public class MenuButton : MonoBehaviour
 			player.Points = player.Points - humanGlovesPointsReq;
 			humanGlovesDupReq *= 2;
 			humanGlovesPointsReq *= 2;
+
+			player.saveItemData();
 		}
 		else
 		{
@@ -174,6 +180,8 @@ public class MenuButton : MonoBehaviour
 			player.Points = player.Points - catToyPointsReq;
 			catToyDupReq *= 2;
 			catToyPointsReq *= 2;
+
+			player.saveItemData();
 		}
 		else
 		{
@@ -195,6 +203,8 @@ public class MenuButton : MonoBehaviour
 			player.Points = player.Points - catClothesPointsReq;
 			catClothesDupReq *= 2;
 			catClothesPointsReq *= 2;
+
+			player.saveItemData();
 		}
 		else
 		{
@@ -216,6 +226,8 @@ public class MenuButton : MonoBehaviour
 			player.Points = player.Points - catShoesPointsReq;
 			catShoesDupReq *= 2;
 			catShoesPointsReq *= 2;
+
+			player.saveItemData();
 		}
 		else
 		{
