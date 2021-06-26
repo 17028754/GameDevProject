@@ -26,6 +26,7 @@ public class EnemyMovement : MonoBehaviour
     //public Vector3 move;
 
     private Spawner spawnScript;
+    private PlayerInteraction playerScript;
 
     public int initialBossCatHP = 1000;
     private int bossCatHP = 0;
@@ -37,12 +38,18 @@ public class EnemyMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    	spawnScript = FindObjectOfType<GameManager>().GetComponent<Spawner>();	
+    	spawnScript = FindObjectOfType<GameManager>().GetComponent<Spawner>();	 
+        playerScript = FindObjectOfType<PlayerInteraction>().GetComponent<PlayerInteraction>();   
         rb2d = GetComponent<Rigidbody2D>();
         p = transform.position;
-        if (bossCat)
+        if (bossCat == true && playerScript.l_CanSpawn== true)
+        {
+            bossCatHP = playerScript.BossCatHP;
+        }
+        else if (bossCat)
         {
         	bossCatHP = initialBossCatHP;
+            playerScript.BossCatHP = initialBossCatHP;
         }
     }
 

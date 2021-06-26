@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : MonoBehaviour//, ISaveable
 {
 
 	[Header("Gameplay")]
@@ -73,6 +73,8 @@ public class PlayerInteraction : MonoBehaviour
 
 	private EnemyMovement bossCatScript;
 	public EnemyMovement BossCatScript { get { return bossCatScript; }}
+	private int bossCatHP;
+	public int BossCatHP { get { return bossCatHP; } set { bossCatHP = value; }}
 
 	private bool win = false;
 	public bool Win { get { return win; }}
@@ -95,6 +97,10 @@ public class PlayerInteraction : MonoBehaviour
 	private bool canSpawn = false;
 	public bool CanSpawn { get { return canSpawn; }}
 
+	// To pass proper data referencing for boss hp in EnemyMovement script
+	private bool l_canSpawn;
+	public bool l_CanSpawn { get { return l_canSpawn; }}
+
 	// To pass the idle rate (Points per second) for GameManager to display on UI
 	private int idlePointsGained = 1;
 	public int IdlePointsGained { get { return idlePointsGained; }}
@@ -107,6 +113,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         points = initialPoints;
         InvokeRepeating("increaseTimer", 1f, 1f);
+        LoadJsonData(this);
     }
 
     // Update is called once per frame
@@ -271,6 +278,7 @@ public class PlayerInteraction : MonoBehaviour
 
 	            	// Debug.Log("Boss Before getting damaged health: " + bossCatScript.BossCatHP);
 	            	bossCatScript.BossCatHP -= totalDamage;
+	            	bossCatHP = bossCatScript.BossCatHP;
 	            	// Debug.Log("Boss remaining health: " + bossCatScript.BossCatHP);
 
 	            	if (bossCatScript.BossCatHP <= 0)
@@ -280,7 +288,11 @@ public class PlayerInteraction : MonoBehaviour
 	            	}
 	            }
 
+	            // Reset tiemr for idle feature
 	            timer = 0;
+
+	            // Save points when manually collecting points
+	            SaveJsonData(this);
         	}
         }
 
@@ -335,7 +347,8 @@ public class PlayerInteraction : MonoBehaviour
 					}
 				}
 
-
+				// Save points data during idle feature
+				SaveJsonData(this);
         	}
         }
     }
@@ -370,5 +383,65 @@ public class PlayerInteraction : MonoBehaviour
     	timer += 1;
     	// Debug.Log (IdleRateM);
     }
+
+
+    // Things to save:
+    // 1. Items
+    // 2. Points <--- DONE
+    // 3. Boss current health, and spawn <--- DONE
+
+   // Saving Data
+    public static void SaveJsonData(PlayerInteraction a_PlayerInteraction)
+    {
+        SaveData sd = new SaveData();
+        a_PlayerInteraction.PopulateSaveData(sd);
+
+        if (FileManager.WriteToFile("SaveData01.dat", sd.ToJson())) 
+        {
+            // Debug.Log("Save successful");
+        }
+    }
+
+    public void PopulateSaveData(SaveData a_SaveData)
+    {
+    	a_SaveData.s_points = points;
+
+
+        if (spawnScript.BossCatSpawnned)
+        {
+        	a_SaveData.s_canSpawn = canSpawn;
+        	a_SaveData.s_bossCatHP = bossCatHP;
+        	// Debug.Log("Saving: " + bossCatHP);
+        }
+    }
+
+   // Loading Data
+    public static void LoadJsonData(PlayerInteraction a_PlayerInteraction)
+    {
+        if (FileManager.LoadFromFile("SaveData01.dat", out var json))
+        {
+            SaveData sd = new SaveData();
+            sd.LoadFromJson(json);
+
+			a_PlayerInteraction.LoadFromSaveData(sd);            
+            // Debug.Log("Load complete");
+        }
+    }
+
+    public void LoadFromSaveData(SaveData a_SaveData)
+    {
+    	points = a_SaveData.s_points;
+
+    	if (a_SaveData.s_canSpawn)
+        {
+        	// Data reference for EnemyMovemen script
+        	l_canSpawn = a_SaveData.s_canSpawn;
+        	// Data reference for Spawner script
+        	canSpawn = a_SaveData.s_canSpawn;
+        	bossCatHP = a_SaveData.s_bossCatHP;
+        	// Debug.Log("Loading: " + bossCatHP);
+        }
+    }
+
 
 }

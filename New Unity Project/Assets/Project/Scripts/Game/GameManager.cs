@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     	}
     	else
     	{
-    		bossSpawnBar.SetSpawnBar(player.BossCatScript.BossCatHP);
+    		bossSpawnBar.SetSpawnBar(player.BossCatHP);
     	}
 
     	pointsText.text = "Points: " + player.Points;
