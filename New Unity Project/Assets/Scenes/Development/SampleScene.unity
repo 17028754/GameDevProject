@@ -4022,10 +4022,6 @@ MonoBehaviour:
   boxCatPrefab: {fileID: 6740421587979845694, guid: b7f456f17b3d86849a2e4a7d1f8d24c7, type: 3}
   amountBoxCat: 3
   bossCatPrefab: {fileID: 7357088650420401236, guid: 8e7ff3f2f111e7143b606ae77671ed47, type: 3}
-  effectPrefab: {fileID: 1540386551010329255, guid: 36e4ab328e4912b4a97dc53e11e45f25, type: 3}
-  amountOfEffects: 1
-  damagePrefab: {fileID: 3405158177890401884, guid: dc1b1d075e433df44bb783fac3da3421, type: 3}
-  amountOfDamage: 1
 --- !u!4 &1100970271
 Transform:
   m_ObjectHideFlags: 0

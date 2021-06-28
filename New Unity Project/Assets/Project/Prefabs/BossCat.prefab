@@ -182,7 +182,7 @@ MonoBehaviour:
   commonCat: 0
   uniqueCat: 0
   boxCat: 0
-  initialBossCatHP: 10
+  initialBossCatHP: 1000
   options:
   - HorizontalDirection
   - DigonalDirection
