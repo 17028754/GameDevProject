@@ -35,6 +35,13 @@ public class SaveData
     public int s_critChance = 10;
     public int s_critChanceTracker;
 
+    // Time
+    public string s_date;
+    public int s_hours;
+    public int s_minutes;
+
+    // First time start game
+    public bool s_isFirst = true;
     
     public string ToJson()
     {

@@ -101,6 +101,8 @@ public class PlayerInteraction : MonoBehaviour, ISaveable
 	private bool l_canSpawn;
 	public bool l_CanSpawn { get { return l_canSpawn; }}
 
+
+	// Variables to store different points calculation
 	// To pass the idle rate (Points per second) for GameManager to display on UI
 	private int idlePointsGained = 1;
 	public int IdlePointsGained { get { return idlePointsGained; }}
@@ -108,12 +110,132 @@ public class PlayerInteraction : MonoBehaviour, ISaveable
 	private int manualPointsGained = 0;
 
 
+	// Idle progression when player closes the app
+	private string current_Date;
+	private int current_Hours;
+	private int current_Minutes;
+
+	private string stored_Date;
+	private int stored_Hours;
+	private int stored_Minutes;
+
+	// UI for idle progression when player closes the app
+	[Header("UI")]
+	public GameObject offline_prog;
+	public Text offline_prog_text; 
+
+	// Bool variable to check is this the first time starting the game
+	private bool isFirst = true; 
+
+	// Variable for inactive/offline idle rate
+	private int idlePointsOff = 0;
+	private double off_points_g = 0;
+
 	// Start is called before the first frame update
 	void Start()
     {
         points = initialPoints;
         InvokeRepeating("increaseTimer", 1f, 1f);
         LoadJsonData(this);
+
+
+        // WIP for time
+        string time = System.DateTime.UtcNow.ToLocalTime().ToString("dd-MM-yyyy.HH:mmm");
+
+        string[] splitArray = time.Split(char.Parse("."));
+        current_Date = splitArray[0];
+        string time_HM = splitArray[1];
+
+        string[] splitArray1 = time_HM.Split(char.Parse(":"));
+        string time_Hours = splitArray1[0];
+        string time_Minutes = splitArray1[1];
+
+        current_Hours = int.Parse(time_Hours);
+        current_Minutes = int.Parse(time_Minutes);
+
+        // Debug.Log("Entire Datetime: " + time);
+
+        // Debug.Log("Date only: " + current_Date);
+        // Debug.Log("Hour Minutes: " + time_HM);
+
+        // Debug.Log("Hours: " + time_Hours);
+        // Debug.Log("Minutes: " + time_Minutes);
+
+        // Debug.Log("Integer Hours: " + current_Hours);
+        // Debug.Log("Integer Minutes: " + current_Minutes);
+
+        // if (time_H == 22)
+        // {
+        // 	Debug.Log("Can do time comparison in integer");
+        // }
+
+        // if (time_Date == time_Date)
+        // {
+        // 	Debug.Log("Can do time comparison in string");
+        // }
+
+        // Need to load the data first, then compare load date time with current date time
+
+        /*
+		- Compare date if same day, then compare hours, then compare minutes
+		- if its within any one of those condition, then calculate the difference as in there will be 3 different if else 
+		(Need to ask Wei Xin about this, what is the max time etc, or we follow a calculation, and what is the calculation) 
+		- Also need to display appropriate UI showing how many points were gained from this feature
+		- Inactive Idle rate = (active idle rate)*0.1
+		- Current cap at 2 hours
+		- Need testing
+        */
+
+        if (current_Date == stored_Date)
+        {
+        	if (current_Hours == stored_Hours)
+        	{
+        		int off_points_m = stored_Minutes - current_Minutes;
+        		int gained_points = 1;
+				idlePointsOff = gained_points + gained_points*IdleRateM/100 + IdleRateA;
+        		off_points_g = (idlePointsOff*off_points_m*60)*0.1;
+        	}
+        	else
+        	{
+        		int off_points_h = stored_Hours - current_Hours;
+        		int gained_points = 1;
+        		if (off_points_h >= 2)
+        		{
+        			idlePointsOff = gained_points + gained_points*IdleRateM/100 + IdleRateA;
+        			off_points_g = (idlePointsGained*60*60*2)*0.1;
+        		}
+        		else
+        		{
+        			int off_points_m = stored_Minutes - current_Minutes;
+        			idlePointsOff = gained_points + gained_points*IdleRateM/100 + IdleRateA;
+        			off_points_g = (idlePointsGained*off_points_m*60 + idlePointsGained*60*60)*0.1;
+        		}
+        	}
+
+        	offline_prog_text.text = "Points gained when you were offline: " + off_points_g;
+        	points += (int)off_points_g;
+        }
+        else
+        {
+        	int gained_points = 1;
+        	idlePointsOff = gained_points + gained_points*IdleRateM/100 + IdleRateA;
+        	off_points_g = (idlePointsGained*60*60*2)*0.1;
+           	offline_prog_text.text = "Points gained when you were offline: " + off_points_g;
+        	points += (int)off_points_g;
+         }
+
+
+		// Display UI for app closed/Inactive idle rate progression
+		// Note: Change to display this feature after tutorial (TODO)
+		if (isFirst == false)
+		{
+			offline_prog.SetActive(true);
+		}
+		else
+		{
+			offline_prog.SetActive(false);
+		}
+
     }
 
     // Update is called once per frame
@@ -385,6 +507,12 @@ public class PlayerInteraction : MonoBehaviour, ISaveable
     }
 
 
+    // Close offline progression Screen button
+	public void CloseOfflineProgressionScreen()
+	{
+		offline_prog.SetActive(false);
+	}
+
     // Things to save:
     // 1. Items <--- DONE (Need more testing)
     // 2. Points <--- DONE
@@ -441,6 +569,28 @@ public class PlayerInteraction : MonoBehaviour, ISaveable
         a_SaveData.s_critChance = critChance;
         a_SaveData.s_critChanceTracker = critChanceTracker;
 
+        // Save Time
+        string time = System.DateTime.UtcNow.ToLocalTime().ToString("dd-MM-yyyy.HH:mmm");
+
+        string[] splitArray = time.Split(char.Parse("."));
+        a_SaveData.s_date = splitArray[0]; // Save date as string
+        // Debug.Log(splitArray[0]);
+        string time_HM = splitArray[1];
+
+        string[] splitArray1 = time_HM.Split(char.Parse(":"));
+        string time_Hours = splitArray1[0];
+        string time_Minutes = splitArray1[1];
+
+        a_SaveData.s_hours = int.Parse(time_Hours); // Save hours as integer
+        a_SaveData.s_minutes = int.Parse(time_Minutes); // Save minutes as integer
+
+        // Debug.Log(time_Hours);
+        // Debug.Log(time_Minutes);
+
+
+        // Save isFirst starting game (The moment you save, is the moment is not the first time)
+        a_SaveData.s_isFirst = false;
+
 
     }
 
@@ -473,7 +623,7 @@ public class PlayerInteraction : MonoBehaviour, ISaveable
         	// Debug.Log("Loading: " + bossCatHP);
         }
 
-        // Load Items
+        // Load items
         // Cat house
         idleRateM = a_SaveData.s_idleRateM;
         idleRateMTracker = a_SaveData.s_idleRateMTracker;
@@ -498,6 +648,13 @@ public class PlayerInteraction : MonoBehaviour, ISaveable
         critChance = a_SaveData.s_critChance;
         critChanceTracker = a_SaveData.s_critChanceTracker;
 
+        // Load saved time
+        stored_Date = a_SaveData.s_date;
+        stored_Hours = a_SaveData.s_hours;
+        stored_Minutes = a_SaveData.s_minutes; 
+
+        // Load isFirst
+        isFirst = a_SaveData.s_isFirst; 
     }
 
     // Function to be used by menu, so when user upgrades an item, this function will be called to save the changes
