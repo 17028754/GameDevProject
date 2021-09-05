@@ -10,7 +10,7 @@ public class PlayerInteraction : MonoBehaviour, ISaveable
 	public int initialPoints = 0;
 	public Transform targetCodex;
 	// Player Stats
-	public int baseDamage = 1;
+	public int baseDamage = 100;
 
 	// Items - start
 
